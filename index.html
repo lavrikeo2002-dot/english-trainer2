@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Ledger — тренажёр английских фраз</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2A38;
+    --ink-soft:#4B5768;
+    --paper:#F3F1E7;
+    --card:#FFFEFA;
+    --line:#D9D3BF;
+    --line-strong:#B9B199;
+    --teal:#2E6B5E;
+    --teal-soft:#E4EEEA;
+    --gold:#A9782F;
+    --gold-soft:#F2E8D3;
+    --rust:#9C4632;
+    --rust-soft:#F3E1DB;
+    --plum:#5B4B6E;
+    --plum-soft:#EAE4EF;
+    --sky:#35607A;
+    --sky-soft:#DCE7ED;
+    --rose:#96435E;
+    --rose-soft:#F2DEE4;
+    --radius:10px;
+    --shadow:0 1px 0 var(--line-strong);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 27px,
+        var(--line) 28px
+      ),
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:520px;
+    margin:0 auto;
+    padding:20px 18px 48px;
+  }
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding-bottom:14px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:18px;
+  }
+  header.top h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:1.5rem;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  header.top .sub{
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .tally-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .tally{
+    flex:1;
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    text-align:center;
+  }
+  .tally b{
+    display:block;
+    font-family:'Source Serif 4', serif;
+    font-size:1.5rem;
+    line-height:1.1;
+  }
+  .tally span{
+    font-size:0.68rem;
+    color:var(--ink-soft);
+  }
+  nav.modes{
+    display:flex;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  nav.modes button{
+    flex:1;
+    background:transparent;
+    border:1px solid var(--line-strong);
+    border-bottom:none;
+    border-radius:8px 8px 0 0;
+    padding:9px 4px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.82rem;
+    font-weight:500;
+    color:var(--ink-soft);
+    cursor:pointer;
+    position:relative;
+    top:1px;
+  }
+  nav.modes button.active{
+    background:var(--card);
+    color:var(--ink);
+    font-weight:600;
+    border-color:var(--ink);
+    border-bottom:1px solid var(--card);
+  }
+  .panel{
+    background:var(--card);
+    border:1px solid var(--ink);
+    border-radius:0 8px 8px 8px;
+    padding:16px;
+    min-height:320px;
+  }
+  .cats{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:16px;
+  }
+  .cats button{
+    border:1px solid var(--line-strong);
+    background:var(--paper);
+    border-radius:999px;
+    padding:5px 11px;
+    font-size:0.72rem;
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .cats button.on{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--paper);
+  }
+  .session-tally{
+    display:flex;
+    gap:4px;
+    align-items:center;
+    margin-bottom:14px;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .hatch{
+    display:inline-block;
+    width:9px;
+    height:16px;
+    border-left:2px solid var(--line-strong);
+    margin-right:2px;
+  }
+  .hatch.done{border-color:var(--teal);}
+  .hatch.cur{border-color:var(--ink);}
+  /* FLASHCARD */
+  .fcard{
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:26px 20px 20px;
+    text-align:center;
+    cursor:pointer;
+    min-height:210px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+  .fcard .tag{
+    position:absolute;
+    top:10px;
+    left:12px;
+    font-size:0.66rem;
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .fcard .front-word{
+    font-family:'Source Serif 4', serif;
+    font-size:1.55rem;
+    font-weight:600;
+    border-bottom:1px solid var(--line-strong);
+    display:inline-block;
+    padding-bottom:10px;
+    margin:0 auto 6px;
+  }
+  .fcard .example{
+    font-family:'Source Serif 4', serif;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:0.9rem;
+    margin-top:10px;
+    line-height:1.4;
+  }
+  .fcard .back{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px dashed var(--line-strong);
+  }
+  .fcard .back .ru{
+    font-size:1.2rem;
+    font-weight:600;
+    color:var(--teal);
+  }
+  .fcard .hint{
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    margin-top:16px;
+  }
+  .spk{
+    border:1px solid var(--line-strong);
+    background:var(--paper);
+    border-radius:999px;
+    width:30px;height:30px;
+    font-size:0.85rem;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+  .grade-row{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+  }
+  .grade-row button{
+    flex:1;
+    padding:12px 6px;
+    border-radius:8px;
+    border:1px solid var(--line-strong);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .grade-row .no{background:var(--rust-soft);color:var(--rust);border-color:var(--rust);}
+  .grade-row .yes{background:var(--teal-soft);color:var(--teal);border-color:var(--teal);}
+  /* QUIZ / TYPE */
+  .q-prompt{
+    text-align:center;
+    padding:14px 6px 20px;
+  }
+  .q-prompt .lbl{font-size:0.7rem;color:var(--ink-soft);margin-bottom:8px;}
+  .q-prompt .word{
+    font-family:'Source Serif 4', serif;
+    font-size:1.5rem;
+    font-weight:600;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .opt{
+    text-align:left;
+    padding:12px 14px;
+    border-radius:8px;
+    border:1px solid var(--line-strong);
+    background:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.92rem;
+    cursor:pointer;
+  }
+  .opt.correct{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);}
+  .opt.wrong{background:var(--rust-soft);border-color:var(--rust);color:var(--rust);}
+  .type-row{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+  }
+  .type-row input{
+    flex:1;
+    padding:11px 12px;
+    border-radius:8px;
+    border:1px solid var(--line-strong);
+    font-size:0.95rem;
+    font-family:'IBM Plex Sans', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .type-row input:focus{outline:2px solid var(--ink);outline-offset:1px;}
+  .type-row button{
+    padding:0 18px;
+    border-radius:8px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    font-weight:600;
+    cursor:pointer;
+  }
+  .feedback{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:0.88rem;
+    line-height:1.45;
+  }
+  .feedback.ok{background:var(--teal-soft);color:var(--teal);}
+  .feedback.bad{background:var(--rust-soft);color:var(--rust);}
+  .feedback .ex{display:block;margin-top:6px;font-style:italic;color:var(--ink-soft);}
+  .next-btn{
+    margin-top:14px;
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    font-weight:600;
+    cursor:pointer;
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+  .empty-state{
+    text-align:center;
+    padding:40px 10px;
+    color:var(--ink-soft);
+  }
+  .empty-state .big{
+    font-family:'Source Serif 4', serif;
+    font-size:1.3rem;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .browse-list{max-height:420px;overflow-y:auto;}
+  .browse-item{
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:baseline;
+  }
+  .browse-item .en{font-weight:600;}
+  .browse-item .ru{color:var(--ink-soft);font-size:0.85rem;text-align:right;}
+  footer.foot{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+  }
+  footer.foot button{
+    background:none;border:none;color:var(--ink-soft);
+    text-decoration:underline;cursor:pointer;font-size:0.7rem;
+    font-family:'IBM Plex Sans', sans-serif;
+    padding:0;
+  }
+  .cat-business{background:var(--teal-soft);color:var(--teal);}
+  .cat-everyday{background:var(--gold-soft);color:var(--gold);}
+  .cat-tech{background:var(--sky-soft);color:var(--sky);}
+  .cat-women{background:var(--rose-soft);color:var(--rose);}
+  @media (prefers-reduced-motion:no-preference){
+    .fcard{transition:transform .15s ease;}
+    .opt{transition:background .12s ease;}
+  }
+  @media (max-width:380px){
+    header.top h1{font-size:1.3rem;}
+    .fcard .front-word{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Ledger</h1>
+      <div class="sub">Слова и фразы: бухгалтерия, жизнь, ИИ и код</div>
+    </div>
+  </header>
+
+  <div class="tally-row" id="tallyRow"></div>
+
+  <nav class="modes" id="modeNav">
+    <button data-mode="flash" class="active">Карточки</button>
+    <button data-mode="quiz">Тест</button>
+    <button data-mode="type">Ввод</button>
+    <button data-mode="browse">Список</button>
+  </nav>
+
+  <div class="panel" id="panel">
+    <!-- rendered by JS -->
+  </div>
+
+  <footer class="foot">
+    <span id="footNote">Прогресс сохраняется автоматически</span>
+    <button id="resetBtn">Сбросить прогресс</button>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+
+  /* ---------------- DATA ---------------- */
+  var DECK = [
+    // Business & Accounting
+    {id:'b1',cat:'business',en:'accounts payable',ru:'кредиторская задолженность',ex:"We need to clear the accounts payable before the fiscal year ends.",exRu:'Нам нужно погасить кредиторскую задолженность до конца финансового года.'},
+    {id:'b2',cat:'business',en:'accounts receivable',ru:'дебиторская задолженность',ex:"Accounts receivable increased by 10% this quarter.",exRu:'Дебиторская задолженность выросла на 10% в этом квартале.'},
+    {id:'b3',cat:'business',en:'cash flow',ru:'денежный поток',ex:"Poor cash flow is one of the main reasons small businesses fail.",exRu:'Слабый денежный поток — одна из главных причин банкротства малого бизнеса.'},
+    {id:'b4',cat:'business',en:'profit margin',ru:'маржа прибыли',ex:"We managed to increase our profit margin by cutting costs.",exRu:'Нам удалось увеличить маржу прибыли за счёт сокращения расходов.'},
+    {id:'b5',cat:'business',en:'fiscal year',ru:'финансовый год',ex:"Our fiscal year starts in April.",exRu:'Наш финансовый год начинается в апреле.'},
+    {id:'b6',cat:'business',en:'to reconcile accounts',ru:'сверять счета',ex:"I spend every Friday reconciling the accounts.",exRu:'Я трачу каждую пятницу на сверку счетов.'},
+    {id:'b7',cat:'business',en:'outstanding balance',ru:'непогашенный остаток',ex:"Please settle the outstanding balance as soon as possible.",exRu:'Пожалуйста, погасите непогашенный остаток как можно скорее.'},
+    {id:'b8',cat:'business',en:'financial statement',ru:'финансовая отчётность',ex:"The financial statements are due by the end of the month.",exRu:'Финансовая отчётность должна быть сдана до конца месяца.'},
+    {id:'b9',cat:'business',en:'tax return',ru:'налоговая декларация',ex:"She filed her tax return a week before the deadline.",exRu:'Она подала налоговую декларацию за неделю до срока.'},
+    {id:'b10',cat:'business',en:'to invoice someone',ru:'выставить счёт',ex:"We'll invoice the client once the project is complete.",exRu:'Мы выставим счёт клиенту, как только проект будет завершён.'},
+    {id:'b11',cat:'business',en:'audit',ru:'аудиторская проверка',ex:"The company is undergoing an external audit.",exRu:'Компания проходит внешний аудит.'},
+    {id:'b12',cat:'business',en:'expense report',ru:'отчёт о расходах',ex:"Submit your expense report by Friday.",exRu:'Сдайте отчёт о расходах до пятницы.'},
+    {id:'b13',cat:'business',en:'budget forecast',ru:'прогноз бюджета',ex:"The budget forecast looks optimistic for next year.",exRu:'Прогноз бюджета на следующий год выглядит оптимистично.'},
+    {id:'b14',cat:'business',en:'net income',ru:'чистая прибыль',ex:"Net income rose despite falling sales.",exRu:'Чистая прибыль выросла, несмотря на падение продаж.'},
+    {id:'b15',cat:'business',en:'gross revenue',ru:'валовая выручка',ex:"Gross revenue doesn't account for expenses.",exRu:'Валовая выручка не учитывает расходы.'},
+    {id:'b16',cat:'business',en:'to allocate funds',ru:'распределять средства',ex:"The board decided to allocate funds to marketing.",exRu:'Правление решило выделить средства на маркетинг.'},
+    {id:'b17',cat:'business',en:'to write off',ru:'списывать (долг, актив)',ex:"We had to write off the bad debt.",exRu:'Нам пришлось списать безнадёжный долг.'},
+    {id:'b18',cat:'business',en:'depreciation',ru:'амортизация',ex:"Depreciation is calculated on a straight-line basis.",exRu:'Амортизация рассчитывается линейным методом.'},
+    {id:'b19',cat:'business',en:'to comply with regulations',ru:'соблюдать нормативные требования',ex:"All reports must comply with local regulations.",exRu:'Все отчёты должны соответствовать местным нормам.'},
+    {id:'b20',cat:'business',en:'bottom line',ru:'итоговый финансовый результат',ex:"In the end, it all comes down to the bottom line.",exRu:'В итоге всё сводится к итоговому финансовому результату.'},
+    // Everyday phrasal verbs
+    {id:'b21',cat:'business',en:'balance sheet',ru:'бухгалтерский баланс',ex:"The balance sheet shows assets and liabilities.",exRu:'Баланс показывает активы и обязательства.'},
+    {id:'b22',cat:'business',en:'income statement',ru:'отчёт о прибылях и убытках',ex:"The income statement covers the last quarter.",exRu:'Отчёт о прибылях и убытках охватывает последний квартал.'},
+    {id:'b23',cat:'business',en:'general ledger',ru:'главная бухгалтерская книга',ex:"All transactions are recorded in the general ledger.",exRu:'Все операции фиксируются в главной книге.'},
+    {id:'b24',cat:'business',en:'to file a report',ru:'подать отчёт',ex:"We need to file the report by Monday.",exRu:'Нам нужно подать отчёт до понедельника.'},
+    {id:'b25',cat:'business',en:'accrual',ru:'начисление',ex:"Accruals are recorded even before cash changes hands.",exRu:'Начисления фиксируются ещё до фактической оплаты.'},
+    {id:'b26',cat:'business',en:'liability',ru:'обязательство (пассив)',ex:"A loan is recorded as a liability.",exRu:'Кредит отражается как обязательство.'},
+    {id:'b27',cat:'business',en:'asset',ru:'актив',ex:"Equipment is considered a fixed asset.",exRu:'Оборудование считается основным активом.'},
+    {id:'b28',cat:'business',en:'to close the books',ru:'закрыть отчётный период',ex:"We close the books at the end of every month.",exRu:'Мы закрываем период в конце каждого месяца.'},
+    {id:'b29',cat:'business',en:'VAT',ru:'НДС (value-added tax)',ex:"VAT is added to the final price.",exRu:'НДС добавляется к итоговой цене.'},
+    {id:'b30',cat:'business',en:'payroll',ru:'расчёт заработной платы',ex:"Payroll is processed on the 25th of each month.",exRu:'Расчёт зарплаты проводится 25-го числа каждого месяца.'},
+    {id:'e1',cat:'everyday',en:'to take into account',ru:'принимать во внимание',ex:"We need to take the extra costs into account.",exRu:'Нам нужно учесть дополнительные расходы.'},
+    {id:'e2',cat:'everyday',en:'to come up with',ru:'придумать',ex:"She came up with a great solution.",exRu:'Она придумала отличное решение.'},
+    {id:'e3',cat:'everyday',en:'to deal with',ru:'иметь дело с, справляться',ex:"I have to deal with a lot of paperwork today.",exRu:'Сегодня мне нужно разобраться с кучей бумажной работы.'},
+    {id:'e4',cat:'everyday',en:'to figure out',ru:'разобраться, выяснить',ex:"I can't figure out how this software works.",exRu:'Я не могу понять, как работает эта программа.'},
+    {id:'e5',cat:'everyday',en:'to get in touch',ru:'связаться',ex:"Please get in touch if anything changes.",exRu:'Пожалуйста, свяжитесь, если что-то изменится.'},
+    {id:'e6',cat:'everyday',en:'to put off',ru:'откладывать',ex:"Don't put off the report until the last minute.",exRu:'Не откладывай отчёт на последний момент.'},
+    {id:'e7',cat:'everyday',en:'to run into',ru:'случайно встретить, столкнуться',ex:"I ran into an old colleague yesterday.",exRu:'Вчера я случайно встретил старого коллегу.'},
+    {id:'e8',cat:'everyday',en:'to give up',ru:'сдаваться, бросать',ex:"Don't give up, you're almost done.",exRu:'Не сдавайся, ты почти закончил.'},
+    {id:'e9',cat:'everyday',en:'to look into',ru:'изучить, разобраться',ex:"I'll look into the matter and get back to you.",exRu:'Я разберусь в вопросе и вернусь к вам с ответом.'},
+    {id:'e10',cat:'everyday',en:'to bring up',ru:'поднять тему',ex:"She brought up an interesting point at the meeting.",exRu:'Она подняла интересный вопрос на встрече.'},
+    {id:'e11',cat:'everyday',en:'to catch up',ru:'наверстать, пообщаться',ex:"Let's catch up over coffee sometime.",exRu:'Давай как-нибудь встретимся за кофе и пообщаемся.'},
+    {id:'e12',cat:'everyday',en:'to point out',ru:'указывать на что-то',ex:"He pointed out a mistake in the report.",exRu:'Он указал на ошибку в отчёте.'},
+    {id:'e13',cat:'everyday',en:'to sort out',ru:'уладить, разобраться',ex:"We finally sorted out the issue with the supplier.",exRu:'Мы наконец уладили вопрос с поставщиком.'},
+    {id:'e14',cat:'everyday',en:'to hold on',ru:'подождать',ex:"Hold on a second, I'll check the file.",exRu:'Подождите секунду, я проверю файл.'},
+    {id:'e15',cat:'everyday',en:'to work out',ru:'срабатывать, решаться',ex:"I'm sure things will work out fine.",exRu:'Я уверена, всё сложится хорошо.'},
+    {id:'e16',cat:'everyday',en:'to set up',ru:'устанавливать, организовывать',ex:"Can you set up a meeting for tomorrow?",exRu:'Можешь организовать встречу на завтра?'},
+    {id:'e17',cat:'everyday',en:'to turn down',ru:'отклонять, отказывать',ex:"They turned down our proposal.",exRu:'Они отклонили наше предложение.'},
+    {id:'e18',cat:'everyday',en:'to carry out',ru:'выполнять, проводить',ex:"The team carried out a detailed analysis.",exRu:'Команда провела детальный анализ.'},
+    {id:'e19',cat:'everyday',en:'to end up',ru:'в итоге оказаться',ex:"We ended up working late again.",exRu:'В итоге мы снова задержались на работе допоздна.'},
+    {id:'e20',cat:'everyday',en:'to rely on',ru:'полагаться на',ex:"You can rely on her to finish on time.",exRu:'Ты можешь положиться на неё — она закончит вовремя.'},
+    {id:'e21',cat:'everyday',en:'grocery shopping',ru:'поход за продуктами',ex:"I usually do the grocery shopping on Saturdays.",exRu:'Обычно я хожу за продуктами по субботам.'},
+    {id:'e22',cat:'everyday',en:'to run errands',ru:'заниматься мелкими делами',ex:"I have to run a few errands after work.",exRu:'После работы мне нужно уладить несколько дел.'},
+    {id:'e23',cat:'everyday',en:'public transport',ru:'общественный транспорт',ex:"I take public transport to avoid traffic.",exRu:'Я езжу на общественном транспорте, чтобы не стоять в пробках.'},
+    {id:'e24',cat:'everyday',en:'to be stuck in traffic',ru:'застрять в пробке',ex:"I was stuck in traffic for an hour this morning.",exRu:'Сегодня утром я час простояла в пробке.'},
+    {id:'e25',cat:'everyday',en:'household chores',ru:'домашние дела',ex:"We split the household chores evenly.",exRu:'Мы поровну делим домашние дела.'},
+    {id:'e26',cat:'everyday',en:'to feel under the weather',ru:'неважно себя чувствовать',ex:"I'm feeling a bit under the weather today.",exRu:'Сегодня я чувствую себя не очень хорошо.'},
+    {id:'e27',cat:'everyday',en:'to make plans',ru:'строить планы',ex:"Let's make plans for the weekend.",exRu:'Давай спланируем выходные.'},
+    {id:'e28',cat:'everyday',en:'to be in a good mood',ru:'быть в хорошем настроении',ex:"She's always in a good mood on Fridays.",exRu:'По пятницам у неё всегда хорошее настроение.'},
+    {id:'e29',cat:'everyday',en:'to take a day off',ru:'взять выходной',ex:"I'm going to take a day off next week.",exRu:'На следующей неделе я возьму выходной.'},
+    {id:'e30',cat:'everyday',en:'to look forward to something',ru:'с нетерпением ждать чего-то',ex:"I'm looking forward to the weekend.",exRu:'Я с нетерпением жду выходных.'},
+    {id:'t1',cat:'tech',en:'code',ru:'код',ex:"I'm learning to write code for the first time.",exRu:'Я впервые учусь писать код.'},
+    {id:'t2',cat:'tech',en:'to run a script',ru:'запустить скрипт',ex:"Click this button to run the script.",exRu:'Нажмите эту кнопку, чтобы запустить скрипт.'},
+    {id:'t3',cat:'tech',en:'bug',ru:'ошибка в коде',ex:"There's a bug in the calculation.",exRu:'В расчёте есть ошибка.'},
+    {id:'t4',cat:'tech',en:'to debug',ru:'искать и исправлять ошибки',ex:"I spent an hour debugging the script.",exRu:'Я потратила час на исправление ошибок в скрипте.'},
+    {id:'t5',cat:'tech',en:'variable',ru:'переменная',ex:"A variable stores a value you can change.",exRu:'Переменная хранит значение, которое можно менять.'},
+    {id:'t6',cat:'tech',en:'function',ru:'функция',ex:"This function adds two numbers together.",exRu:'Эта функция складывает два числа.'},
+    {id:'t7',cat:'tech',en:'loop',ru:'цикл',ex:"A loop repeats an action several times.",exRu:'Цикл повторяет действие несколько раз.'},
+    {id:'t8',cat:'tech',en:'array',ru:'массив',ex:"The array contains all the invoice numbers.",exRu:'Массив содержит все номера счетов.'},
+    {id:'t9',cat:'tech',en:'database',ru:'база данных',ex:"All the transactions are stored in a database.",exRu:'Все операции хранятся в базе данных.'},
+    {id:'t10',cat:'tech',en:'to automate',ru:'автоматизировать',ex:"We want to automate the monthly reports.",exRu:'Мы хотим автоматизировать ежемесячные отчёты.'},
+    {id:'t11',cat:'tech',en:'workflow',ru:'рабочий процесс',ex:"This tool simplifies our whole workflow.",exRu:'Этот инструмент упрощает весь рабочий процесс.'},
+    {id:'t12',cat:'tech',en:'to install',ru:'установить (программу)',ex:"First, install the program on your computer.",exRu:'Сначала установите программу на компьютер.'},
+    {id:'t13',cat:'tech',en:'to update',ru:'обновить',ex:"Remember to update the software regularly.",exRu:'Не забывайте регулярно обновлять программу.'},
+    {id:'t14',cat:'tech',en:'spreadsheet',ru:'таблица (эксель)',ex:"I exported the data into a spreadsheet.",exRu:'Я выгрузила данные в таблицу.'},
+    {id:'t15',cat:'tech',en:'to export data',ru:'экспортировать данные',ex:"You can export the report as a CSV file.",exRu:'Вы можете экспортировать отчёт в формате CSV.'},
+    {id:'t16',cat:'tech',en:'artificial intelligence',ru:'искусственный интеллект',ex:"Artificial intelligence can analyze data much faster than a person.",exRu:'Искусственный интеллект анализирует данные намного быстрее человека.'},
+    {id:'t17',cat:'tech',en:'machine learning',ru:'машинное обучение',ex:"Machine learning helps the system improve over time.",exRu:'Машинное обучение помогает системе улучшаться со временем.'},
+    {id:'t18',cat:'tech',en:'neural network',ru:'нейронная сеть',ex:"A neural network is inspired by the human brain.",exRu:'Нейронная сеть создана по образцу человеческого мозга.'},
+    {id:'t19',cat:'tech',en:'algorithm',ru:'алгоритм',ex:"The algorithm sorts the invoices by date.",exRu:'Алгоритм сортирует счета по дате.'},
+    {id:'t20',cat:'tech',en:'dataset',ru:'набор данных',ex:"We trained the model on a large dataset.",exRu:'Мы обучили модель на большом наборе данных.'},
+    {id:'t21',cat:'tech',en:'to train a model',ru:'обучать модель',ex:"It took days to train the model.",exRu:'Обучение модели заняло несколько дней.'},
+    {id:'t22',cat:'tech',en:'prompt',ru:'запрос к ИИ',ex:"Write a clear prompt to get a better answer.",exRu:'Напишите чёткий запрос, чтобы получить лучший ответ.'},
+    {id:'t23',cat:'tech',en:'AI agent',ru:'ИИ-агент',ex:"An AI agent can complete tasks automatically.",exRu:'ИИ-агент может выполнять задачи автоматически.'},
+    {id:'t24',cat:'tech',en:'chatbot',ru:'чат-бот',ex:"The chatbot answers simple customer questions.",exRu:'Чат-бот отвечает на простые вопросы клиентов.'},
+    {id:'t25',cat:'tech',en:'large language model',ru:'большая языковая модель',ex:"ChatGPT is an example of a large language model.",exRu:'ChatGPT — пример большой языковой модели.'},
+    {id:'t26',cat:'tech',en:'to generate',ru:'генерировать',ex:"The tool can generate a report in seconds.",exRu:'Инструмент может сгенерировать отчёт за секунды.'},
+    {id:'t27',cat:'tech',en:'accuracy',ru:'точность',ex:"The model's accuracy improved after more training.",exRu:'Точность модели улучшилась после дополнительного обучения.'},
+    {id:'t28',cat:'tech',en:'input and output',ru:'входные и выходные данные',ex:"The output depends on the quality of the input.",exRu:'Результат зависит от качества входных данных.'},
+    {id:'t29',cat:'tech',en:'integration',ru:'интеграция',ex:"We need integration between the AI tool and 1C.",exRu:'Нам нужна интеграция между ИИ-инструментом и 1С.'},
+    {id:'t30',cat:'tech',en:'API',ru:'программный интерфейс (API)',ex:"The API lets two programs exchange data automatically.",exRu:'API позволяет двум программам автоматически обмениваться данными.'},
+    {id:'w1',cat:'women',en:'skincare routine',ru:'уход за кожей',ex:"My skincare routine takes about ten minutes every morning.",exRu:'Мой уход за кожей занимает около десяти минут каждое утро.'},
+    {id:'w2',cat:'women',en:'to try on clothes',ru:'примерять одежду',ex:"I tried on three dresses before choosing one.",exRu:'Я примерила три платья, прежде чем выбрать одно.'},
+    {id:'w3',cat:'women',en:'a good hair day',ru:'день, когда причёска отлично получилась',ex:"Today is definitely a good hair day.",exRu:'Сегодня точно тот день, когда причёска удалась.'},
+    {id:'w4',cat:'women',en:'to accessorize',ru:'дополнять образ аксессуарами',ex:"She always accessorizes her outfits with a scarf.",exRu:'Она всегда дополняет образ шарфом.'},
+    {id:'w5',cat:'women',en:'to pamper yourself',ru:'побаловать себя',ex:"Sometimes it's nice to pamper yourself with a spa day.",exRu:'Иногда приятно побаловать себя днём в спа.'},
+    {id:'w6',cat:'women',en:'work-life balance',ru:'баланс между работой и личной жизнью',ex:"Finding a good work-life balance isn't always easy.",exRu:'Найти баланс между работой и личной жизнью не всегда просто.'},
+    {id:'w7',cat:'women',en:'girls\' night out',ru:'вечер с подругами',ex:"We're planning a girls' night out on Friday.",exRu:'Мы планируем вечер с подругами в пятницу.'},
+    {id:'w8',cat:'women',en:'to redecorate',ru:'обновить интерьер',ex:"We're planning to redecorate the living room.",exRu:'Мы планируем обновить интерьер гостиной.'},
+    {id:'w9',cat:'women',en:'self-care',ru:'забота о себе',ex:"Self-care isn't selfish, it's necessary.",exRu:'Забота о себе — это не эгоизм, а необходимость.'},
+    {id:'w10',cat:'women',en:'maternity leave',ru:'декретный отпуск',ex:"She's currently on maternity leave.",exRu:'Сейчас она находится в декретном отпуске.'}
+  ];
+
+  var CATS = {
+    business:{label:'Бухгалтерия', cls:'cat-business'},
+    everyday:{label:'Бытовые', cls:'cat-everyday'},
+    tech:{label:'ИИ и код', cls:'cat-tech'},
+    women:{label:'Женские темы', cls:'cat-women'}
+  };
+
+  var BOX_MS = [0, 10*60*1000, 8*60*60*1000, 24*60*60*1000, 3*24*60*60*1000, 7*24*60*60*1000, 16*24*60*60*1000, 35*24*60*60*1000];
+  var MASTER_BOX = 6;
+  var NEW_PER_DAY = 8;
+  var SESSION_SIZE = 12;
+
+  var DECK_BY_ID = {};
+  DECK.forEach(function(d){ DECK_BY_ID[d.id] = d; });
+
+  /* ---------------- STORAGE ----------------
+     Three layers, tried in order, so the same file works both inside Claude
+     and as a plain HTML file opened anywhere:
+       1) window.storage  - Claude's cloud storage (only present in a
+          published Claude artifact). Syncs to the logged-in account.
+       2) localStorage    - the browser's own storage. Works when this file
+          is opened directly (double-clicked, hosted on a plain web server,
+          emailed, etc.) with no Claude account involved. Saves per device
+          / per browser, not synced anywhere.
+       3) in-memory       - last resort if both are blocked (e.g. private
+          browsing mode); progress is lost on reload.
+  ---------------------------------------------- */
+  var mem = null;
+  var STORAGE_KEY = 'ledger-progress-v1';
+
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+  }
+
+  function defaultProgress(){
+    return { cards:{}, today: freshToday(), streak:{count:0, lastDate:null} };
+  }
+
+  function lsGet(){
+    try{
+      if (typeof localStorage === 'undefined') return null;
+      return localStorage.getItem(STORAGE_KEY);
+    }catch(e){ return null; }
+  }
+  function lsSet(str){
+    try{
+      if (typeof localStorage === 'undefined') return false;
+      localStorage.setItem(STORAGE_KEY, str);
+      return true;
+    }catch(e){ return false; }
+  }
+
+  function loadProgress(){
+    return new Promise(function(resolve){
+      function fromLocalOrMem(){
+        var raw = lsGet();
+        if (raw){
+          try{ resolve(JSON.parse(raw)); return; }catch(e){}
+        }
+        mem = mem || defaultProgress();
+        resolve(mem);
+      }
+      if (window.storage && typeof window.storage.get === 'function'){
+        window.storage.get(STORAGE_KEY, false).then(function(res){
+          if (res && res.value){
+            try{ resolve(JSON.parse(res.value)); return; }catch(e){}
+          }
+          resolve(defaultProgress());
+        }).catch(fromLocalOrMem);
+        return;
+      }
+      fromLocalOrMem();
+    });
+  }
+
+  function saveProgress(p){
+    var json = JSON.stringify(p);
+    if (window.storage && typeof window.storage.set === 'function'){
+      return window.storage.set(STORAGE_KEY, json, false).catch(function(){
+        if (!lsSet(json)) mem = p;
+      });
+    }
+    if (!lsSet(json)) mem = p;
+    return Promise.resolve();
+  }
+
+  var PROGRESS = null;
+
+  function ensureCardState(id){
+    if (!PROGRESS.cards[id]){
+      PROGRESS.cards[id] = {box:0, next:0, seen:0, correct:0, lastBoxDate:null};
+    }
+    return PROGRESS.cards[id];
+  }
+
+  function isMastered(id){
+    return ensureCardState(id).box >= MASTER_BOX;
+  }
+
+  // "today" tracks which words were introduced today (shared across tabs, capped
+  // at NEW_PER_DAY) and which of those/reviews were already done in EACH tab today
+  // (so switching tabs doesn't just re-show or hide the same words).
+  function freshToday(){
+    return { date: todayStr(), introduced: [], doneByMode: {flash:[], quiz:[], type:[]} };
+  }
+  function resetTodayIfNeeded(){
+    if (!PROGRESS.today || PROGRESS.today.date !== todayStr()){
+      PROGRESS.today = freshToday();
+    }
+  }
+
+  function bumpStreakOnActivity(){
+    var today = todayStr();
+    if (PROGRESS.streak.lastDate === today) return;
+    var last = PROGRESS.streak.lastDate;
+    if (last){
+      var lastDate = new Date(last.replace(/-/g,'/'));
+      var diffDays = Math.round((new Date(today.replace(/-/g,'/')) - lastDate) / 86400000);
+      PROGRESS.streak.count = (diffDays === 1) ? PROGRESS.streak.count + 1 : 1;
+    } else {
+      PROGRESS.streak.count = 1;
+    }
+    PROGRESS.streak.lastDate = today;
+  }
+
+  function grade(id, correct, mode){
+    resetTodayIfNeeded();
+    var s = ensureCardState(id);
+    var now = Date.now();
+    var wasNew = (s.seen === 0);
+    if (wasNew && PROGRESS.today.introduced.indexOf(id) === -1){
+      PROGRESS.today.introduced.push(id);
+    }
+    s.seen += 1;
+    if (correct) s.correct += 1;
+    // The spaced-repetition schedule only moves once per calendar day, even if
+    // the same word gets practiced in several tabs today - otherwise a word
+    // could jump several boxes in one sitting just from being drilled 3 ways.
+    if (s.lastBoxDate !== todayStr()){
+      if (correct){
+        s.box = Math.min(s.box + 1, BOX_MS.length - 1);
+        s.next = now + BOX_MS[s.box];
+      } else {
+        s.box = 0;
+        s.next = now + BOX_MS[1];
+      }
+      s.lastBoxDate = todayStr();
+    }
+    var doneList = PROGRESS.today.doneByMode[mode];
+    if (doneList && doneList.indexOf(id) === -1) doneList.push(id);
+    bumpStreakOnActivity();
+    saveProgress(PROGRESS);
+  }
+
+  /* ---------------- STATE ---------------- */
+  var state = {
+    mode:'flash',
+    activeCats:['business','everyday','tech','women'],
+    queue:[],
+    idx:0,
+    flipped:false,
+    quizAnswered:false,
+    typeChecked:false
+  };
+
+  function filteredDeck(){
+    return DECK.filter(function(d){ return state.activeCats.indexOf(d.cat) > -1; });
+  }
+
+  // Cards reachable in a given tab today: reviews due from earlier days (not yet
+  // redone in THIS tab today) + today's new-word batch, shared by all three tabs
+  // but tracked separately per tab so each can be worked through once on its own.
+  function reachableFor(mode){
+    resetTodayIfNeeded();
+    var now = Date.now();
+    var pool = filteredDeck();
+    var doneInMode = PROGRESS.today.doneByMode[mode] || [];
+    var introducedToday = PROGRESS.today.introduced;
+
+    var reviewDue = pool.filter(function(d){
+      var s = ensureCardState(d.id);
+      return s.seen > 0 && s.next <= now && doneInMode.indexOf(d.id) === -1;
+    });
+    var todaysBatchPending = pool.filter(function(d){
+      return introducedToday.indexOf(d.id) > -1 && doneInMode.indexOf(d.id) === -1;
+    });
+    var remainingNewSlots = Math.max(0, NEW_PER_DAY - introducedToday.length);
+    var freshNew = pool.filter(function(d){
+      return ensureCardState(d.id).seen === 0 && introducedToday.indexOf(d.id) === -1;
+    }).slice(0, remainingNewSlots);
+
+    return {reviewDue:reviewDue, newDue:todaysBatchPending.concat(freshNew)};
+  }
+
+  function buildQueue(){
+    if (state.mode === 'browse'){ state.queue = []; state.idx = 0; return; }
+    var r = reachableFor(state.mode);
+    var combined = r.reviewDue.concat(r.newDue);
+    combined = shuffle(combined).slice(0, SESSION_SIZE);
+    state.queue = combined;
+    state.idx = 0;
+  }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function currentCard(){
+    return state.queue[state.idx];
+  }
+
+  function advance(){
+    state.idx += 1;
+    state.flipped = false;
+    state.quizAnswered = false;
+    state.typeChecked = false;
+    render();
+  }
+
+  /* ---------------- SPEECH ---------------- */
+  function speak(text){
+    if (!('speechSynthesis' in window)) return;
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  /* ---------------- RENDER: TOP TALLIES ---------------- */
+  function renderTallies(){
+    var pool = filteredDeck();
+    var modeForCount = (state.mode === 'browse') ? 'flash' : state.mode;
+    var r = reachableFor(modeForCount);
+    var dueCount = r.reviewDue.length + r.newDue.length;
+    var masteredCount = pool.filter(function(d){ return isMastered(d.id); }).length;
+    var streak = PROGRESS.streak.lastDate === todayStr() || isDateYesterday(PROGRESS.streak.lastDate) ? PROGRESS.streak.count : 0;
+    var el = document.getElementById('tallyRow');
+    el.innerHTML =
+      '<div class="tally"><b>'+dueCount+'</b><span>доступно сегодня</span></div>'+
+      '<div class="tally"><b>'+masteredCount+'</b><span>усвоено из '+pool.length+'</span></div>'+
+      '<div class="tally"><b>'+streak+'</b><span>дней подряд</span></div>';
+  }
+
+  function isDateYesterday(dateStr){
+    if (!dateStr) return false;
+    var d = new Date(dateStr.replace(/-/g,'/'));
+    var diff = Math.round((new Date(todayStr().replace(/-/g,'/')) - d) / 86400000);
+    return diff <= 1;
+  }
+
+  /* ---------------- RENDER: CATEGORY FILTER ---------------- */
+  function renderCatPicker(container){
+    var html = '<div class="cats">';
+    Object.keys(CATS).forEach(function(key){
+      var on = state.activeCats.indexOf(key) > -1;
+      html += '<button data-cat="'+key+'" class="'+(on?'on':'')+'">'+CATS[key].label+'</button>';
+    });
+    html += '</div>';
+    container.innerHTML += html;
+  }
+
+  function renderSessionTally(container){
+    if (!state.queue.length) return;
+    var html = '<div class="session-tally">Сессия: ';
+    for (var i=0;i<state.queue.length;i++){
+      var cls = i < state.idx ? 'done' : (i === state.idx ? 'cur' : '');
+      html += '<span class="hatch '+cls+'"></span>';
+    }
+    html += ' &nbsp;'+Math.min(state.idx+1, state.queue.length)+' / '+state.queue.length+'</div>';
+    container.innerHTML += html;
+  }
+
+  /* ---------------- RENDER: EMPTY STATE ---------------- */
+  var MODE_LABELS = {flash:'«Карточки»', quiz:'«Тест»', type:'«Ввод»'};
+  function emptyStateHtml(){
+    var others = ['flash','quiz','type'].filter(function(m){ return m !== state.mode; });
+    var hint = others.map(function(m){ return MODE_LABELS[m]; }).join(' или ');
+    return '<div class="empty-state"><div class="big">На сегодня в этой вкладке всё!</div>'+
+      'Эти же слова ещё можно пройти во вкладке '+hint+' — там свой отдельный лимит на сегодня. '+
+      'Новые слова для повторения появятся, когда подойдёт их срок.</div>';
+  }
+
+  /* ---------------- RENDER: FLASHCARDS ---------------- */
+  function renderFlash(panel){
+    renderCatPicker(panel);
+    renderSessionTally(panel);
+    var card = currentCard();
+    if (!card){
+      panel.innerHTML += emptyStateHtml();
+      return;
+    }
+    var cat = CATS[card.cat];
+    var html = '<div class="fcard" id="fcard">';
+    html += '<span class="tag '+cat.cls+'">'+cat.label+'</span>';
+    html += '<div class="front-word">'+card.en+'<button class="spk" id="spkBtn" title="Произношение">🔊</button></div>';
+    if (state.flipped){
+      html += '<div class="example">'+card.ex+'</div>';
+      html += '<div class="back"><div class="ru">'+card.ru+'</div><div class="example">'+card.exRu+'</div></div>';
+    } else {
+      html += '<div class="hint">Нажмите на карточку, чтобы увидеть перевод</div>';
+    }
+    html += '</div>';
+    if (state.flipped){
+      html += '<div class="grade-row">'+
+        '<button class="no" id="gradeNo">Не вспомнила</button>'+
+        '<button class="yes" id="gradeYes">Вспомнила</button>'+
+        '</div>';
+    }
+    panel.innerHTML += html;
+
+    document.getElementById('fcard').addEventListener('click', function(e){
+      if (e.target.id === 'spkBtn') return;
+      state.flipped = !state.flipped;
+      render();
+    });
+    var spk = document.getElementById('spkBtn');
+    if (spk) spk.addEventListener('click', function(ev){ ev.stopPropagation(); speak(card.en); });
+    var yes = document.getElementById('gradeYes');
+    var no = document.getElementById('gradeNo');
+    if (yes) yes.addEventListener('click', function(){ grade(card.id, true, 'flash'); renderTallies(); advance(); });
+    if (no) no.addEventListener('click', function(){ grade(card.id, false, 'flash'); renderTallies(); advance(); });
+  }
+
+  /* ---------------- RENDER: QUIZ ---------------- */
+  function buildQuizOptions(card){
+    var sameCat = DECK.filter(function(d){ return d.cat === card.cat && d.id !== card.id; });
+    var pool = sameCat.length >= 3 ? sameCat : DECK.filter(function(d){ return d.id !== card.id; });
+    var distractors = shuffle(pool).slice(0,3);
+    var direction = Math.random() < 0.5 ? 'en2ru' : 'ru2en';
+    var options = distractors.concat([card]);
+    options = shuffle(options);
+    return {direction:direction, options:options};
+  }
+
+  var quizCache = {};
+
+  function renderQuiz(panel){
+    renderCatPicker(panel);
+    renderSessionTally(panel);
+    var card = currentCard();
+    if (!card){
+      panel.innerHTML += emptyStateHtml();
+      return;
+    }
+    if (!quizCache[card.id] || quizCache.forId !== card.id){
+      quizCache = buildQuizOptions(card);
+      quizCache.forId = card.id;
+    }
+    var isEn2Ru = quizCache.direction === 'en2ru';
+    var promptText = isEn2Ru ? card.en : card.ru;
+    var html = '<div class="q-prompt"><div class="lbl">'+(isEn2Ru ? 'Что это значит?' : 'Как сказать по-английски?')+'</div>';
+    html += '<div class="word">'+promptText;
+    if (isEn2Ru) html += '<button class="spk" id="spkBtnQ" title="Произношение">🔊</button>';
+    html += '</div></div>';
+    html += '<div class="options">';
+    quizCache.options.forEach(function(opt, i){
+      var label = isEn2Ru ? opt.ru : opt.en;
+      html += '<button class="opt" data-i="'+i+'">'+label+'</button>';
+    });
+    html += '</div><div id="quizFeedback"></div>';
+    panel.innerHTML += html;
+
+    var spk = document.getElementById('spkBtnQ');
+    if (spk) spk.addEventListener('click', function(){ speak(card.en); });
+
+    var buttons = panel.querySelectorAll('.opt');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (state.quizAnswered) return;
+        state.quizAnswered = true;
+        var chosen = quizCache.options[parseInt(btn.getAttribute('data-i'),10)];
+        var correct = chosen.id === card.id;
+        buttons.forEach(function(b){
+          var opt = quizCache.options[parseInt(b.getAttribute('data-i'),10)];
+          if (opt.id === card.id) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+        });
+        grade(card.id, correct, 'quiz');
+        renderTallies();
+        var fb = document.getElementById('quizFeedback');
+        fb.innerHTML = '<div class="feedback '+(correct?'ok':'bad')+'">'+
+          (correct ? 'Верно.' : 'Правильный ответ: '+ (isEn2Ru ? card.ru : card.en)) +
+          '<span class="ex">'+card.ex+' — '+card.exRu+'</span></div>'+
+          '<button class="next-btn" id="nextBtn">Дальше</button>';
+        document.getElementById('nextBtn').addEventListener('click', advance);
+      });
+    });
+  }
+
+  /* ---------------- RENDER: TYPE ---------------- */
+  function normalizeAnswer(s){
+    return s.toLowerCase().trim().replace(/^to\s+/,'').replace(/[.,!?]+$/,'').replace(/['’]/g,'').replace(/\s+/g,' ');
+  }
+
+  function renderType(panel){
+    renderCatPicker(panel);
+    renderSessionTally(panel);
+    var card = currentCard();
+    if (!card){
+      panel.innerHTML += emptyStateHtml();
+      return;
+    }
+    var html = '<div class="q-prompt"><div class="lbl">Напишите фразу по-английски</div>';
+    html += '<div class="word">'+card.ru+'</div></div>';
+    html += '<div class="type-row"><input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here..." '+(state.typeChecked?'disabled':'')+'>';
+    html += '<button id="checkBtn">'+(state.typeChecked?'Ок':'Проверить')+'</button></div>';
+    html += '<div id="typeFeedback"></div>';
+    panel.innerHTML += html;
+
+    var input = document.getElementById('typeInput');
+    input.focus();
+
+    function doCheck(){
+      if (state.typeChecked) { advance(); return; }
+      state.typeChecked = true;
+      var val = normalizeAnswer(input.value || '');
+      var target = normalizeAnswer(card.en);
+      var correct = val.length > 0 && val === target;
+      grade(card.id, correct, 'type');
+      renderTallies();
+      var fb = document.getElementById('typeFeedback');
+      fb.innerHTML = '<div class="feedback '+(correct?'ok':'bad')+'">'+
+        (correct ? 'Верно: '+card.en : 'Правильный ответ: '+card.en) +
+        '<span class="ex">'+card.ex+' — '+card.exRu+'</span></div>'+
+        '<button class="next-btn" id="nextBtn">Дальше</button>';
+      document.getElementById('checkBtn').style.display='none';
+      document.getElementById('nextBtn').addEventListener('click', advance);
+      input.disabled = true;
+    }
+    document.getElementById('checkBtn').addEventListener('click', doCheck);
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') doCheck();
+    });
+  }
+
+  /* ---------------- RENDER: BROWSE ---------------- */
+  function renderBrowse(panel){
+    renderCatPicker(panel);
+    var pool = filteredDeck();
+    var html = '<div class="browse-list">';
+    pool.forEach(function(d){
+      html += '<div class="browse-item"><div><span class="en">'+d.en+'</span><br><span style="font-size:0.78rem;color:var(--ink-soft)">'+d.ex+'</span></div>'+
+        '<div class="ru">'+d.ru+'<br><span style="font-size:0.78rem">'+d.exRu+'</span></div></div>';
+    });
+    html += '</div>';
+    panel.innerHTML += html;
+  }
+
+  /* ---------------- MAIN RENDER ---------------- */
+  function render(){
+    renderTallies();
+    var panel = document.getElementById('panel');
+    panel.innerHTML = '';
+    if (state.mode === 'flash') renderFlash(panel);
+    else if (state.mode === 'quiz') renderQuiz(panel);
+    else if (state.mode === 'type') renderType(panel);
+    else if (state.mode === 'browse') renderBrowse(panel);
+
+    panel.querySelectorAll('[data-cat]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var cat = btn.getAttribute('data-cat');
+        var idx = state.activeCats.indexOf(cat);
+        if (idx > -1){
+          if (state.activeCats.length > 1) state.activeCats.splice(idx,1);
+        } else {
+          state.activeCats.push(cat);
+        }
+        buildQueue();
+        render();
+      });
+    });
+  }
+
+  /* ---------------- NAV ---------------- */
+  document.getElementById('modeNav').addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    document.querySelectorAll('#modeNav button').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    state.mode = btn.getAttribute('data-mode');
+    state.flipped = false;
+    state.quizAnswered = false;
+    state.typeChecked = false;
+    if (state.mode !== 'browse'){
+      state.idx = 0;
+      buildQueue();
+    }
+    render();
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if (!confirm('Сбросить весь прогресс изучения? Это действие нельзя отменить.')) return;
+    PROGRESS = defaultProgress();
+    saveProgress(PROGRESS);
+    buildQueue();
+    render();
+  });
+
+  /* ---------------- INIT ---------------- */
+  loadProgress().then(function(p){
+    PROGRESS = p;
+    if (!PROGRESS.cards) PROGRESS = defaultProgress();
+    buildQueue();
+    render();
+  });
+
+})();
+</script>
+</body>
+</html>
