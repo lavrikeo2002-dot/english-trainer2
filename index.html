@@ -94,39 +94,149 @@
     color:var(--ink-soft);
   }
   nav.modes{
-    display:flex;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
     gap:6px;
     margin-bottom:14px;
   }
   nav.modes button{
-    flex:1;
-    background:transparent;
+    background:var(--card);
     border:1px solid var(--line-strong);
-    border-bottom:none;
-    border-radius:8px 8px 0 0;
-    padding:9px 4px;
+    border-radius:8px;
+    padding:10px 2px;
     font-family:'IBM Plex Sans', sans-serif;
-    font-size:0.82rem;
+    font-size:0.8rem;
     font-weight:500;
     color:var(--ink-soft);
     cursor:pointer;
-    position:relative;
-    top:1px;
+    min-width:0;
   }
   nav.modes button.active{
-    background:var(--card);
-    color:var(--ink);
+    background:var(--ink);
+    color:var(--paper);
     font-weight:600;
     border-color:var(--ink);
-    border-bottom:1px solid var(--card);
   }
   .panel{
     background:var(--card);
     border:1px solid var(--ink);
-    border-radius:0 8px 8px 8px;
+    border-radius:8px;
     padding:16px;
     min-height:320px;
   }
+  .banner{
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    color:var(--ink);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:0.78rem;
+    line-height:1.4;
+    margin-bottom:14px;
+  }
+  .banner b{font-weight:600;}
+  /* sentence builder */
+  .answer-zone{
+    min-height:58px;
+    border:1px dashed var(--line-strong);
+    border-radius:8px;
+    padding:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-content:flex-start;
+    margin:4px 0 12px;
+    background:var(--paper);
+  }
+  .token-pool{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .chip{
+    border:1px solid var(--line-strong);
+    background:var(--card);
+    border-radius:8px;
+    padding:8px 11px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.92rem;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .chip.used{visibility:hidden;}
+  .chip.placed{background:var(--teal-soft);border-color:var(--teal);}
+  .btn-row{display:flex;gap:8px;}
+  .btn-row button, .btn-solid, .btn-ghost{
+    flex:1;
+    padding:11px 8px;
+    border-radius:8px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .btn-solid{border:1px solid var(--ink);background:var(--ink);color:var(--paper);}
+  .btn-ghost{border:1px solid var(--line-strong);background:var(--paper);color:var(--ink);}
+  .btn-solid:disabled{opacity:0.4;cursor:default;}
+  .listen-btn{
+    display:block;
+    margin:6px auto 4px;
+    width:84px;height:84px;
+    border-radius:999px;
+    border:1px solid var(--ink);
+    background:var(--paper);
+    font-size:2rem;
+    cursor:pointer;
+  }
+  .listen-slow{
+    display:block;
+    margin:0 auto 16px;
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    text-decoration:underline;
+    font-size:0.78rem;
+    cursor:pointer;
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+  /* days / progress */
+  .sec-title{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0 0 10px;
+  }
+  .day-row{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:8px;
+    align-items:center;
+    padding:6px 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.78rem;
+  }
+  .day-row .bar-wrap{background:var(--paper);border-radius:4px;height:16px;position:relative;}
+  .day-row .bar{background:var(--teal);height:16px;border-radius:4px;min-width:2px;}
+  .day-row .meta{grid-column:2;color:var(--ink-soft);font-size:0.72rem;margin-top:-2px;}
+  .cat-prog{margin-bottom:10px;font-size:0.8rem;}
+  .cat-prog .line{display:flex;justify-content:space-between;margin-bottom:3px;}
+  .cat-prog .track{background:var(--paper);height:10px;border-radius:5px;overflow:hidden;position:relative;}
+  .cat-prog .seen{position:absolute;left:0;top:0;bottom:0;background:var(--line-strong);}
+  .cat-prog .mast{position:absolute;left:0;top:0;bottom:0;background:var(--teal);}
+  textarea.code{
+    width:100%;
+    min-height:70px;
+    border:1px solid var(--line-strong);
+    border-radius:8px;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:monospace;
+    font-size:0.7rem;
+    padding:8px;
+    resize:vertical;
+  }
+  .note{font-size:0.74rem;color:var(--ink-soft);line-height:1.4;margin:6px 0 10px;}
   .cats{
     display:flex;
     flex-wrap:wrap;
@@ -283,6 +393,7 @@
   }
   .type-row input{
     flex:1;
+    min-width:0;
     padding:11px 12px;
     border-radius:8px;
     border:1px solid var(--line-strong);
@@ -363,6 +474,7 @@
   .cat-everyday{background:var(--gold-soft);color:var(--gold);}
   .cat-tech{background:var(--sky-soft);color:var(--sky);}
   .cat-women{background:var(--rose-soft);color:var(--rose);}
+  .cat-phrases{background:var(--plum-soft);color:var(--plum);}
   @media (prefers-reduced-motion:no-preference){
     .fcard{transition:transform .15s ease;}
     .opt{transition:background .12s ease;}
@@ -379,9 +491,11 @@
   <header class="top">
     <div>
       <h1>Ledger</h1>
-      <div class="sub">Слова и фразы: бухгалтерия, жизнь, ИИ и код</div>
+      <div class="sub">Английский для жизни, ИИ и работы</div>
     </div>
   </header>
+
+  <div id="storageBanner"></div>
 
   <div class="tally-row" id="tallyRow"></div>
 
@@ -389,6 +503,9 @@
     <button data-mode="flash" class="active">Карточки</button>
     <button data-mode="quiz">Тест</button>
     <button data-mode="type">Ввод</button>
+    <button data-mode="build">Сборка</button>
+    <button data-mode="listen">Слух</button>
+    <button data-mode="days">Дни</button>
     <button data-mode="browse">Список</button>
   </nav>
 
@@ -407,39 +524,8 @@
 (function(){
 
   /* ---------------- DATA ---------------- */
-  var DECK = [
-    // Business & Accounting
-    {id:'b1',cat:'business',en:'accounts payable',ru:'кредиторская задолженность',ex:"We need to clear the accounts payable before the fiscal year ends.",exRu:'Нам нужно погасить кредиторскую задолженность до конца финансового года.'},
-    {id:'b2',cat:'business',en:'accounts receivable',ru:'дебиторская задолженность',ex:"Accounts receivable increased by 10% this quarter.",exRu:'Дебиторская задолженность выросла на 10% в этом квартале.'},
-    {id:'b3',cat:'business',en:'cash flow',ru:'денежный поток',ex:"Poor cash flow is one of the main reasons small businesses fail.",exRu:'Слабый денежный поток — одна из главных причин банкротства малого бизнеса.'},
-    {id:'b4',cat:'business',en:'profit margin',ru:'маржа прибыли',ex:"We managed to increase our profit margin by cutting costs.",exRu:'Нам удалось увеличить маржу прибыли за счёт сокращения расходов.'},
-    {id:'b5',cat:'business',en:'fiscal year',ru:'финансовый год',ex:"Our fiscal year starts in April.",exRu:'Наш финансовый год начинается в апреле.'},
-    {id:'b6',cat:'business',en:'to reconcile accounts',ru:'сверять счета',ex:"I spend every Friday reconciling the accounts.",exRu:'Я трачу каждую пятницу на сверку счетов.'},
-    {id:'b7',cat:'business',en:'outstanding balance',ru:'непогашенный остаток',ex:"Please settle the outstanding balance as soon as possible.",exRu:'Пожалуйста, погасите непогашенный остаток как можно скорее.'},
-    {id:'b8',cat:'business',en:'financial statement',ru:'финансовая отчётность',ex:"The financial statements are due by the end of the month.",exRu:'Финансовая отчётность должна быть сдана до конца месяца.'},
-    {id:'b9',cat:'business',en:'tax return',ru:'налоговая декларация',ex:"She filed her tax return a week before the deadline.",exRu:'Она подала налоговую декларацию за неделю до срока.'},
-    {id:'b10',cat:'business',en:'to invoice someone',ru:'выставить счёт',ex:"We'll invoice the client once the project is complete.",exRu:'Мы выставим счёт клиенту, как только проект будет завершён.'},
-    {id:'b11',cat:'business',en:'audit',ru:'аудиторская проверка',ex:"The company is undergoing an external audit.",exRu:'Компания проходит внешний аудит.'},
-    {id:'b12',cat:'business',en:'expense report',ru:'отчёт о расходах',ex:"Submit your expense report by Friday.",exRu:'Сдайте отчёт о расходах до пятницы.'},
-    {id:'b13',cat:'business',en:'budget forecast',ru:'прогноз бюджета',ex:"The budget forecast looks optimistic for next year.",exRu:'Прогноз бюджета на следующий год выглядит оптимистично.'},
-    {id:'b14',cat:'business',en:'net income',ru:'чистая прибыль',ex:"Net income rose despite falling sales.",exRu:'Чистая прибыль выросла, несмотря на падение продаж.'},
-    {id:'b15',cat:'business',en:'gross revenue',ru:'валовая выручка',ex:"Gross revenue doesn't account for expenses.",exRu:'Валовая выручка не учитывает расходы.'},
-    {id:'b16',cat:'business',en:'to allocate funds',ru:'распределять средства',ex:"The board decided to allocate funds to marketing.",exRu:'Правление решило выделить средства на маркетинг.'},
-    {id:'b17',cat:'business',en:'to write off',ru:'списывать (долг, актив)',ex:"We had to write off the bad debt.",exRu:'Нам пришлось списать безнадёжный долг.'},
-    {id:'b18',cat:'business',en:'depreciation',ru:'амортизация',ex:"Depreciation is calculated on a straight-line basis.",exRu:'Амортизация рассчитывается линейным методом.'},
-    {id:'b19',cat:'business',en:'to comply with regulations',ru:'соблюдать нормативные требования',ex:"All reports must comply with local regulations.",exRu:'Все отчёты должны соответствовать местным нормам.'},
-    {id:'b20',cat:'business',en:'bottom line',ru:'итоговый финансовый результат',ex:"In the end, it all comes down to the bottom line.",exRu:'В итоге всё сводится к итоговому финансовому результату.'},
-    // Everyday phrasal verbs
-    {id:'b21',cat:'business',en:'balance sheet',ru:'бухгалтерский баланс',ex:"The balance sheet shows assets and liabilities.",exRu:'Баланс показывает активы и обязательства.'},
-    {id:'b22',cat:'business',en:'income statement',ru:'отчёт о прибылях и убытках',ex:"The income statement covers the last quarter.",exRu:'Отчёт о прибылях и убытках охватывает последний квартал.'},
-    {id:'b23',cat:'business',en:'general ledger',ru:'главная бухгалтерская книга',ex:"All transactions are recorded in the general ledger.",exRu:'Все операции фиксируются в главной книге.'},
-    {id:'b24',cat:'business',en:'to file a report',ru:'подать отчёт',ex:"We need to file the report by Monday.",exRu:'Нам нужно подать отчёт до понедельника.'},
-    {id:'b25',cat:'business',en:'accrual',ru:'начисление',ex:"Accruals are recorded even before cash changes hands.",exRu:'Начисления фиксируются ещё до фактической оплаты.'},
-    {id:'b26',cat:'business',en:'liability',ru:'обязательство (пассив)',ex:"A loan is recorded as a liability.",exRu:'Кредит отражается как обязательство.'},
-    {id:'b27',cat:'business',en:'asset',ru:'актив',ex:"Equipment is considered a fixed asset.",exRu:'Оборудование считается основным активом.'},
-    {id:'b28',cat:'business',en:'to close the books',ru:'закрыть отчётный период',ex:"We close the books at the end of every month.",exRu:'Мы закрываем период в конце каждого месяца.'},
-    {id:'b29',cat:'business',en:'VAT',ru:'НДС (value-added tax)',ex:"VAT is added to the final price.",exRu:'НДС добавляется к итоговой цене.'},
-    {id:'b30',cat:'business',en:'payroll',ru:'расчёт заработной платы',ex:"Payroll is processed on the 25th of each month.",exRu:'Расчёт зарплаты проводится 25-го числа каждого месяца.'},
+  var DECK_RAW = [
+    // Бытовая лексика
     {id:'e1',cat:'everyday',en:'to take into account',ru:'принимать во внимание',ex:"We need to take the extra costs into account.",exRu:'Нам нужно учесть дополнительные расходы.'},
     {id:'e2',cat:'everyday',en:'to come up with',ru:'придумать',ex:"She came up with a great solution.",exRu:'Она придумала отличное решение.'},
     {id:'e3',cat:'everyday',en:'to deal with',ru:'иметь дело с, справляться',ex:"I have to deal with a lot of paperwork today.",exRu:'Сегодня мне нужно разобраться с кучей бумажной работы.'},
@@ -470,6 +556,37 @@
     {id:'e28',cat:'everyday',en:'to be in a good mood',ru:'быть в хорошем настроении',ex:"She's always in a good mood on Fridays.",exRu:'По пятницам у неё всегда хорошее настроение.'},
     {id:'e29',cat:'everyday',en:'to take a day off',ru:'взять выходной',ex:"I'm going to take a day off next week.",exRu:'На следующей неделе я возьму выходной.'},
     {id:'e30',cat:'everyday',en:'to look forward to something',ru:'с нетерпением ждать чего-то',ex:"I'm looking forward to the weekend.",exRu:'Я с нетерпением жду выходных.'},
+    {id:'e31',cat:'everyday',en:"to cook dinner",ru:"приготовить ужин",ex:"I'm cooking dinner for the whole family tonight.",exRu:"Сегодня вечером я готовлю ужин для всей семьи."},
+    {id:'e32',cat:'everyday',en:"to do the laundry",ru:"стирать бельё",ex:"I do the laundry every Sunday morning.",exRu:"Я стираю бельё каждое воскресное утро."},
+    {id:'e33',cat:'everyday',en:"to do the dishes",ru:"мыть посуду",ex:"Who is going to do the dishes tonight?",exRu:"Кто сегодня вечером будет мыть посуду?"},
+    {id:'e34',cat:'everyday',en:"to take out the trash",ru:"выносить мусор",ex:"Don't forget to take out the trash.",exRu:"Не забудь вынести мусор."},
+    {id:'e35',cat:'everyday',en:"to wake up early",ru:"рано вставать",ex:"I wake up early to avoid the morning rush.",exRu:"Я встаю рано, чтобы не попасть в утреннюю суету."},
+    {id:'e36',cat:'everyday',en:"to oversleep",ru:"проспать",ex:"I overslept and was late for work.",exRu:"Я проспала и опоздала на работу."},
+    {id:'e37',cat:'everyday',en:"to get dressed",ru:"одеваться",ex:"Get dressed, we are leaving in ten minutes.",exRu:"Одевайся, мы выходим через десять минут."},
+    {id:'e38',cat:'everyday',en:"to go for a walk",ru:"пойти погулять",ex:"Let's go for a walk after dinner.",exRu:"Давай погуляем после ужина."},
+    {id:'e39',cat:'everyday',en:"to make an appointment",ru:"записаться на приём",ex:"I need to make an appointment with the dentist.",exRu:"Мне нужно записаться к стоматологу."},
+    {id:'e40',cat:'everyday',en:"to pick someone up",ru:"забрать кого-то, подвезти",ex:"Can you pick me up from the station?",exRu:"Можешь забрать меня со станции?"},
+    {id:'e41',cat:'everyday',en:"to drop someone off",ru:"подбросить, высадить",ex:"I'll drop you off at work on my way.",exRu:"Я подброшу тебя до работы по пути."},
+    {id:'e42',cat:'everyday',en:"to be in a hurry",ru:"спешить",ex:"Sorry, I can't talk now, I'm in a hurry.",exRu:"Извини, сейчас не могу говорить, я спешу."},
+    {id:'e43',cat:'everyday',en:"to run out of",ru:"заканчиваться, истощаться",ex:"We have run out of milk again.",exRu:"У нас опять закончилось молоко."},
+    {id:'e44',cat:'everyday',en:"on sale",ru:"со скидкой, по акции",ex:"These shoes are on sale until Friday.",exRu:"Эта обувь со скидкой до пятницы."},
+    {id:'e45',cat:'everyday',en:"receipt",ru:"чек",ex:"Keep the receipt in case you want to return it.",exRu:"Сохрани чек на случай, если захочешь вернуть товар."},
+    {id:'e46',cat:'everyday',en:"to pay by card",ru:"платить картой",ex:"Can I pay by card here?",exRu:"Можно здесь заплатить картой?"},
+    {id:'e47',cat:'everyday',en:"to book a table",ru:"забронировать столик",ex:"I'd like to book a table for two at eight.",exRu:"Я хотела бы забронировать столик на двоих на восемь часов."},
+    {id:'e48',cat:'everyday',en:"to order delivery",ru:"заказать доставку",ex:"Let's order delivery tonight, I'm too tired to cook.",exRu:"Давай закажем доставку, я слишком устала, чтобы готовить."},
+    {id:'e49',cat:'everyday',en:"weather forecast",ru:"прогноз погоды",ex:"According to the weather forecast, it will rain tomorrow.",exRu:"Согласно прогнозу погоды, завтра будет дождь."},
+    {id:'e50',cat:'everyday',en:"it's pouring",ru:"льёт как из ведра",ex:"Take an umbrella, it's pouring outside.",exRu:"Возьми зонт, на улице льёт как из ведра."},
+    {id:'e51',cat:'everyday',en:"to be late for",ru:"опаздывать на",ex:"We are going to be late for the meeting.",exRu:"Мы опоздаем на встречу."},
+    {id:'e52',cat:'everyday',en:"to charge a phone",ru:"заряжать телефон",ex:"My phone is dead, can I charge it here?",exRu:"Мой телефон разрядился, можно его здесь зарядить?"},
+    {id:'e53',cat:'everyday',en:"to go to the gym",ru:"ходить в спортзал",ex:"I go to the gym three times a week.",exRu:"Я хожу в спортзал три раза в неделю."},
+    {id:'e54',cat:'everyday',en:"to eat healthy",ru:"питаться правильно",ex:"I'm trying to eat healthy and cook at home more often.",exRu:"Я стараюсь питаться правильно и чаще готовить дома."},
+    {id:'e55',cat:'everyday',en:"to get some sleep",ru:"выспаться",ex:"I really need to get some sleep tonight.",exRu:"Мне очень нужно сегодня выспаться."},
+    {id:'e56',cat:'everyday',en:"to have a headache",ru:"болит голова",ex:"I have a terrible headache today.",exRu:"У меня сегодня ужасно болит голова."},
+    {id:'e57',cat:'everyday',en:"to feel better",ru:"чувствовать себя лучше",ex:"I hope you feel better soon.",exRu:"Надеюсь, ты скоро почувствуешь себя лучше."},
+    {id:'e58',cat:'everyday',en:"to ask for directions",ru:"спросить дорогу",ex:"I stopped a passer-by to ask for directions.",exRu:"Я остановила прохожего, чтобы спросить дорогу."},
+    {id:'e59',cat:'everyday',en:"to get lost",ru:"заблудиться",ex:"I got lost in the old part of the city.",exRu:"Я заблудилась в старой части города."},
+    {id:'e60',cat:'everyday',en:"to be fed up with",ru:"быть сытым по горло, надоесть",ex:"I'm fed up with this rainy weather.",exRu:"Мне надоела эта дождливая погода."},
+    // ИИ и программирование
     {id:'t1',cat:'tech',en:'code',ru:'код',ex:"I'm learning to write code for the first time.",exRu:'Я впервые учусь писать код.'},
     {id:'t2',cat:'tech',en:'to run a script',ru:'запустить скрипт',ex:"Click this button to run the script.",exRu:'Нажмите эту кнопку, чтобы запустить скрипт.'},
     {id:'t3',cat:'tech',en:'bug',ru:'ошибка в коде',ex:"There's a bug in the calculation.",exRu:'В расчёте есть ошибка.'},
@@ -500,6 +617,84 @@
     {id:'t28',cat:'tech',en:'input and output',ru:'входные и выходные данные',ex:"The output depends on the quality of the input.",exRu:'Результат зависит от качества входных данных.'},
     {id:'t29',cat:'tech',en:'integration',ru:'интеграция',ex:"We need integration between the AI tool and 1C.",exRu:'Нам нужна интеграция между ИИ-инструментом и 1С.'},
     {id:'t30',cat:'tech',en:'API',ru:'программный интерфейс (API)',ex:"The API lets two programs exchange data automatically.",exRu:'API позволяет двум программам автоматически обмениваться данными.'},
+    {id:'t31',cat:'tech',en:"terminal",ru:"терминал, командная строка",ex:"Open the terminal and type the command.",exRu:"Откройте терминал и введите команду."},
+    {id:'t32',cat:'tech',en:"command",ru:"команда",ex:"Run this command to start the bot.",exRu:"Выполните эту команду, чтобы запустить бота."},
+    {id:'t33',cat:'tech',en:"library",ru:"библиотека (кода)",ex:"This library makes it easy to work with Excel files.",exRu:"Эта библиотека упрощает работу с файлами Excel."},
+    {id:'t34',cat:'tech',en:"to import",ru:"импортировать, подключить",ex:"First, import the library at the top of the file.",exRu:"Сначала подключите библиотеку в начале файла."},
+    {id:'t35',cat:'tech',en:"string",ru:"строка (текст в коде)",ex:"A string is a piece of text inside quotes.",exRu:"Строка — это фрагмент текста в кавычках."},
+    {id:'t36',cat:'tech',en:"condition",ru:"условие",ex:"The code runs only if the condition is true.",exRu:"Код выполняется, только если условие истинно."},
+    {id:'t37',cat:'tech',en:"parameter",ru:"параметр",ex:"You can change the parameter to get a different result.",exRu:"Вы можете изменить параметр, чтобы получить другой результат."},
+    {id:'t38',cat:'tech',en:"syntax error",ru:"синтаксическая ошибка",ex:"I forgot a bracket, so I got a syntax error.",exRu:"Я забыла скобку, поэтому получила синтаксическую ошибку."},
+    {id:'t39',cat:'tech',en:"error message",ru:"сообщение об ошибке",ex:"Read the error message carefully, it usually tells you what is wrong.",exRu:"Внимательно читайте сообщение об ошибке — обычно оно подсказывает, что не так."},
+    {id:'t40',cat:'tech',en:"to deploy",ru:"развернуть, выложить в работу",ex:"We deployed the bot to a server last night.",exRu:"Вчера вечером мы развернули бота на сервере."},
+    {id:'t41',cat:'tech',en:"server",ru:"сервер",ex:"The bot runs on a remote server.",exRu:"Бот работает на удалённом сервере."},
+    {id:'t42',cat:'tech',en:"repository",ru:"репозиторий",ex:"All the code is stored in one repository.",exRu:"Весь код хранится в одном репозитории."},
+    {id:'t43',cat:'tech',en:"token",ru:"токен",ex:"The model reads text in small pieces called tokens.",exRu:"Модель читает текст небольшими фрагментами, которые называются токенами."},
+    {id:'t44',cat:'tech',en:"hallucination",ru:"галлюцинация (выдуманный ответ ИИ)",ex:"Sometimes the AI gives a confident answer that turns out to be a hallucination.",exRu:"Иногда ИИ уверенно выдаёт ответ, который оказывается галлюцинацией."},
+    {id:'t45',cat:'tech',en:"context window",ru:"контекстное окно",ex:"A bigger context window lets the model read longer documents.",exRu:"Большее контекстное окно позволяет модели читать более длинные документы."},
+    {id:'t46',cat:'tech',en:"training data",ru:"обучающие данные",ex:"The quality of the training data affects the result.",exRu:"Качество обучающих данных влияет на результат."},
+    {id:'t47',cat:'tech',en:"to fine-tune",ru:"дообучать",ex:"They fine-tuned the model on legal documents.",exRu:"Они дообучили модель на юридических документах."},
+    {id:'t48',cat:'tech',en:"to summarize",ru:"кратко изложить",ex:"Ask the AI to summarize this long contract.",exRu:"Попросите ИИ кратко изложить этот длинный договор."},
+    {id:'t49',cat:'tech',en:"to extract data",ru:"извлекать данные",ex:"The script extracts data from PDF invoices.",exRu:"Скрипт извлекает данные из PDF-счетов."},
+    {id:'t50',cat:'tech',en:"backup",ru:"резервная копия",ex:"Always make a backup before changing the file.",exRu:"Всегда делайте резервную копию перед изменением файла."},
+    // Устойчивые фразы, клише и идиомы
+    {id:'f1',cat:'phrases',en:"How's it going?",ru:"Как дела?",ex:"Hi, Tom! How's it going?",exRu:"Привет, Том! Как дела?"},
+    {id:'f2',cat:'phrases',en:"No worries",ru:"Не переживай, без проблем",ex:"Sorry I'm late! No worries, we have just started.",exRu:"Извини, что опоздала! Не переживай, мы только начали."},
+    {id:'f3',cat:'phrases',en:"Fair enough",ru:"Справедливо, ладно, согласна",ex:"You want to check it first? Fair enough.",exRu:"Ты хочешь сначала это проверить? Ладно, справедливо."},
+    {id:'f4',cat:'phrases',en:"Take your time",ru:"Не торопись",ex:"Take your time, there is no rush.",exRu:"Не торопись, спешить некуда."},
+    {id:'f5',cat:'phrases',en:"Long story short",ru:"Короче говоря",ex:"Long story short, we missed the flight.",exRu:"Короче говоря, мы опоздали на рейс."},
+    {id:'f6',cat:'phrases',en:"By the way",ru:"Кстати",ex:"By the way, did you get my email?",exRu:"Кстати, вы получили моё письмо?"},
+    {id:'f7',cat:'phrases',en:"Speaking of which",ru:"Кстати, раз уж речь об этом",ex:"Speaking of which, have you finished the report?",exRu:"Кстати, раз уж речь об этом, вы закончили отчёт?"},
+    {id:'f8',cat:'phrases',en:"Never mind",ru:"Не бери в голову, забудь",ex:"I can't find my keys... oh, never mind, here they are.",exRu:"Не могу найти ключи… ой, неважно, вот они."},
+    {id:'f9',cat:'phrases',en:"It's up to you",ru:"Тебе решать",ex:"We can go either way. It's up to you.",exRu:"Мы можем поступить так или иначе. Тебе решать."},
+    {id:'f10',cat:'phrases',en:"Sounds good",ru:"Звучит хорошо, договорились",ex:"Let's meet at six. Sounds good.",exRu:"Давай встретимся в шесть. Договорились."},
+    {id:'f11',cat:'phrases',en:"Let me think about it",ru:"Дайте мне подумать",ex:"Let me think about it and I'll let you know tomorrow.",exRu:"Дайте мне подумать, и я сообщу вам завтра."},
+    {id:'f12',cat:'phrases',en:"Could you say that again?",ru:"Не могли бы вы повторить?",ex:"Sorry, could you say that again? I didn't catch it.",exRu:"Простите, не могли бы вы повторить? Я не расслышала."},
+    {id:'f13',cat:'phrases',en:"What do you mean?",ru:"Что ты имеешь в виду?",ex:"What do you mean by soon?",exRu:"Что ты имеешь в виду под словом «скоро»?"},
+    {id:'f14',cat:'phrases',en:"I'll get back to you",ru:"Я вернусь к вам с ответом",ex:"I'll get back to you by the end of the day.",exRu:"Я вернусь к вам с ответом до конца дня."},
+    {id:'f15',cat:'phrases',en:"Just in case",ru:"На всякий случай",ex:"Take an umbrella, just in case.",exRu:"Возьми зонт на всякий случай."},
+    {id:'f16',cat:'phrases',en:"Keep in touch",ru:"Оставайтесь на связи",ex:"It was great to see you. Let's keep in touch!",exRu:"Было здорово тебя повидать. Давай оставаться на связи!"},
+    {id:'f17',cat:'phrases',en:"Make yourself at home",ru:"Чувствуйте себя как дома",ex:"Come in and make yourself at home.",exRu:"Проходите и чувствуйте себя как дома."},
+    {id:'f18',cat:'phrases',en:"Help yourself",ru:"Угощайтесь",ex:"There is plenty of food, so help yourself.",exRu:"Еды много, так что угощайтесь."},
+    {id:'f19',cat:'phrases',en:"It's on me",ru:"Я угощаю, за мой счёт",ex:"Put your wallet away, dinner is on me.",exRu:"Убери кошелёк, ужин за мой счёт."},
+    {id:'f20',cat:'phrases',en:"I'm on my way",ru:"Я уже в пути",ex:"I'm on my way, see you in ten minutes.",exRu:"Я уже в пути, увидимся через десять минут."},
+    {id:'f21',cat:'phrases',en:"Sorry for the delay",ru:"Извините за задержку",ex:"Sorry for the delay in replying.",exRu:"Извините за задержку с ответом."},
+    {id:'f22',cat:'phrases',en:"Hang in there",ru:"Держись",ex:"I know it's hard right now, but hang in there.",exRu:"Я знаю, сейчас тяжело, но держись."},
+    {id:'f23',cat:'phrases',en:"My pleasure",ru:"С удовольствием, пожалуйста",ex:"Thanks for your help! My pleasure.",exRu:"Спасибо за помощь! Всегда пожалуйста."},
+    {id:'f24',cat:'phrases',en:"I'm sorry to hear that",ru:"Мне жаль это слышать",ex:"Your flight was cancelled? I'm sorry to hear that.",exRu:"Ваш рейс отменили? Мне жаль это слышать."},
+    {id:'f25',cat:'phrases',en:"Good for you",ru:"Молодец, рад за тебя",ex:"You passed the exam? Good for you!",exRu:"Ты сдал экзамен? Молодец!"},
+    {id:'f26',cat:'phrases',en:"It's no big deal",ru:"Ничего страшного",ex:"Don't worry about the mistake, it's no big deal.",exRu:"Не переживай из-за ошибки, ничего страшного."},
+    {id:'f27',cat:'phrases',en:"Do you mind if I sit here?",ru:"Вы не возражаете, если я здесь сяду?",ex:"Excuse me, do you mind if I sit here?",exRu:"Извините, вы не возражаете, если я здесь сяду?"},
+    {id:'f28',cat:'phrases',en:"I'm just looking, thanks",ru:"Я просто смотрю, спасибо",ex:"Can I help you? I'm just looking, thanks.",exRu:"Вам помочь? Я просто смотрю, спасибо."},
+    {id:'f29',cat:'phrases',en:"What a relief!",ru:"Какое облегчение!",ex:"The test is over. What a relief!",exRu:"Тест закончился. Какое облегчение!"},
+    {id:'f30',cat:'phrases',en:"That's a good point",ru:"Хорошее замечание",ex:"That's a good point, I hadn't thought of that.",exRu:"Хорошее замечание, я об этом не подумала."},
+    {id:'f31',cat:'phrases',en:"piece of cake",ru:"проще простого",ex:"Don't worry, the exam was a piece of cake.",exRu:"Не волнуйся, экзамен был проще простого."},
+    {id:'f32',cat:'phrases',en:"once in a blue moon",ru:"крайне редко",ex:"We only eat out once in a blue moon.",exRu:"Мы ходим в рестораны крайне редко."},
+    {id:'f33',cat:'phrases',en:"a blessing in disguise",ru:"скрытое благо (не было бы счастья, да несчастье помогло)",ex:"Losing that deal was a blessing in disguise.",exRu:"Потеря той сделки оказалась скрытым благом."},
+    {id:'f34',cat:'phrases',en:"easier said than done",ru:"легче сказать, чем сделать",ex:"Quit sugar? Easier said than done!",exRu:"Бросить сахар? Легче сказать, чем сделать!"},
+    {id:'f35',cat:'phrases',en:"better late than never",ru:"лучше поздно, чем никогда",ex:"You finally called. Well, better late than never.",exRu:"Ты наконец позвонил. Что ж, лучше поздно, чем никогда."},
+    {id:'f36',cat:'phrases',en:"to kill two birds with one stone",ru:"убить двух зайцев одним выстрелом",ex:"I'll call the bank on my way home and kill two birds with one stone.",exRu:"Я позвоню в банк по дороге домой и убью двух зайцев одним выстрелом."},
+    {id:'f37',cat:'phrases',en:"it's not rocket science",ru:"это совсем несложно",ex:"Just follow the steps. It's not rocket science.",exRu:"Просто следуйте шагам. Это совсем несложно."},
+    {id:'f38',cat:'phrases',en:"to spill the beans",ru:"проболтаться, выдать секрет",ex:"Who spilled the beans about the surprise party?",exRu:"Кто проболтался про вечеринку-сюрприз?"},
+    {id:'f39',cat:'phrases',en:"the ball is in your court",ru:"теперь ваш ход, дело за вами",ex:"I've sent my offer, so the ball is in your court.",exRu:"Я отправила своё предложение, так что теперь дело за вами."},
+    {id:'f40',cat:'phrases',en:"to cost an arm and a leg",ru:"стоить целое состояние",ex:"That bag costs an arm and a leg.",exRu:"Эта сумка стоит целое состояние."},
+    // Бухгалтерия (самое нужное)
+    {id:'b1',cat:'business',en:'accounts payable',ru:'кредиторская задолженность',ex:"We need to clear the accounts payable before the fiscal year ends.",exRu:'Нам нужно погасить кредиторскую задолженность до конца финансового года.'},
+    {id:'b2',cat:'business',en:'accounts receivable',ru:'дебиторская задолженность',ex:"Accounts receivable increased by 10% this quarter.",exRu:'Дебиторская задолженность выросла на 10% в этом квартале.'},
+    {id:'b3',cat:'business',en:'cash flow',ru:'денежный поток',ex:"Poor cash flow is one of the main reasons small businesses fail.",exRu:'Слабый денежный поток — одна из главных причин банкротства малого бизнеса.'},
+    {id:'b4',cat:'business',en:'profit margin',ru:'маржа прибыли',ex:"We managed to increase our profit margin by cutting costs.",exRu:'Нам удалось увеличить маржу прибыли за счёт сокращения расходов.'},
+    {id:'b5',cat:'business',en:'fiscal year',ru:'финансовый год',ex:"Our fiscal year starts in April.",exRu:'Наш финансовый год начинается в апреле.'},
+    {id:'b6',cat:'business',en:'to reconcile accounts',ru:'сверять счета',ex:"I spend every Friday reconciling the accounts.",exRu:'Я трачу каждую пятницу на сверку счетов.'},
+    {id:'b7',cat:'business',en:'outstanding balance',ru:'непогашенный остаток',ex:"Please settle the outstanding balance as soon as possible.",exRu:'Пожалуйста, погасите непогашенный остаток как можно скорее.'},
+    {id:'b8',cat:'business',en:'financial statement',ru:'финансовая отчётность',ex:"The financial statements are due by the end of the month.",exRu:'Финансовая отчётность должна быть сдана до конца месяца.'},
+    {id:'b9',cat:'business',en:'tax return',ru:'налоговая декларация',ex:"She filed her tax return a week before the deadline.",exRu:'Она подала налоговую декларацию за неделю до срока.'},
+    {id:'b10',cat:'business',en:'to invoice someone',ru:'выставить счёт',ex:"We'll invoice the client once the project is complete.",exRu:'Мы выставим счёт клиенту, как только проект будет завершён.'},
+    {id:'b11',cat:'business',en:'audit',ru:'аудиторская проверка',ex:"The company is undergoing an external audit.",exRu:'Компания проходит внешний аудит.'},
+    {id:'b12',cat:'business',en:'expense report',ru:'отчёт о расходах',ex:"Submit your expense report by Friday.",exRu:'Сдайте отчёт о расходах до пятницы.'},
+    {id:'b14',cat:'business',en:'net income',ru:'чистая прибыль',ex:"Net income rose despite falling sales.",exRu:'Чистая прибыль выросла, несмотря на падение продаж.'},
+    {id:'b29',cat:'business',en:'VAT',ru:'НДС (value-added tax)',ex:"VAT is added to the final price.",exRu:'НДС добавляется к итоговой цене.'},
+    {id:'b30',cat:'business',en:'payroll',ru:'расчёт заработной платы',ex:"Payroll is processed on the 25th of each month.",exRu:'Расчёт зарплаты проводится 25-го числа каждого месяца.'},
+    // Женские темы
     {id:'w1',cat:'women',en:'skincare routine',ru:'уход за кожей',ex:"My skincare routine takes about ten minutes every morning.",exRu:'Мой уход за кожей занимает около десяти минут каждое утро.'},
     {id:'w2',cat:'women',en:'to try on clothes',ru:'примерять одежду',ex:"I tried on three dresses before choosing one.",exRu:'Я примерила три платья, прежде чем выбрать одно.'},
     {id:'w3',cat:'women',en:'a good hair day',ru:'день, когда причёска отлично получилась',ex:"Today is definitely a good hair day.",exRu:'Сегодня точно тот день, когда причёска удалась.'},
@@ -513,9 +708,10 @@
   ];
 
   var CATS = {
-    business:{label:'Бухгалтерия', cls:'cat-business'},
     everyday:{label:'Бытовые', cls:'cat-everyday'},
     tech:{label:'ИИ и код', cls:'cat-tech'},
+    phrases:{label:'Фразы и клише', cls:'cat-phrases'},
+    business:{label:'Бухгалтерия', cls:'cat-business'},
     women:{label:'Женские темы', cls:'cat-women'}
   };
 
@@ -524,6 +720,24 @@
   var NEW_PER_DAY = 8;
   var SESSION_SIZE = 12;
 
+  // The order in which NEW words are introduced: a repeating pattern that mixes the
+  // categories (3 everyday : 2 AI/code : 2 phrases : 1 accounting : 1 women's topics),
+  // so a day never starts with a pile of accounting terms.
+  var INTRO_PATTERN = ['everyday','tech','phrases','everyday','tech','phrases','business','women','everyday'];
+
+  function interleaveDeck(raw){
+    var lists = {};
+    raw.forEach(function(d){ (lists[d.cat] = lists[d.cat] || []).push(d); });
+    var out = [], left = raw.length, i = 0, guard = 0;
+    while (left > 0 && guard < 100000){
+      var list = lists[INTRO_PATTERN[i % INTRO_PATTERN.length]];
+      i++; guard++;
+      if (list && list.length){ out.push(list.shift()); left--; }
+    }
+    return out;
+  }
+
+  var DECK = interleaveDeck(DECK_RAW);   // scheduling order (mixed)
   var DECK_BY_ID = {};
   DECK.forEach(function(d){ DECK_BY_ID[d.id] = d; });
 
@@ -548,7 +762,14 @@
   }
 
   function defaultProgress(){
-    return { cards:{}, today: freshToday(), streak:{count:0, lastDate:null} };
+    return { cards:{}, today: freshToday(), streak:{count:0, lastDate:null}, history:{} };
+  }
+
+  // Per-day activity log for the "Дни" tab: repetitions, correct answers, new words.
+  function historyFor(day){
+    if (!PROGRESS.history) PROGRESS.history = {};
+    if (!PROGRESS.history[day]) PROGRESS.history[day] = {reps:0, correct:0, newWords:0};
+    return PROGRESS.history[day];
   }
 
   function lsGet(){
@@ -563,6 +784,29 @@
       localStorage.setItem(STORAGE_KEY, str);
       return true;
     }catch(e){ return false; }
+  }
+
+  // Can progress actually be saved here? Inside some preview windows and in private
+  // browsing both storages are blocked and progress would silently vanish between days.
+  function storageWorks(){
+    if (window.storage && typeof window.storage.set === 'function') return true;
+    try{
+      if (typeof localStorage === 'undefined') return false;
+      var k = STORAGE_KEY + '-probe';
+      localStorage.setItem(k, '1');
+      var ok = localStorage.getItem(k) === '1';
+      localStorage.removeItem(k);
+      return ok;
+    }catch(e){ return false; }
+  }
+
+  function renderBanner(){
+    var el = document.getElementById('storageBanner');
+    if (!el) return;
+    if (storageWorks()){ el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="banner"><b>Прогресс в этом окне не сохраняется.</b> '+
+      'Так бывает в предпросмотре или в приватной вкладке. Откройте файл в обычном браузере '+
+      '(Chrome, Safari) или на вкладке «Дни» скопируйте код прогресса и вставьте его при следующем запуске.</div>';
   }
 
   function loadProgress(){
@@ -615,12 +859,24 @@
   // "today" tracks which words were introduced today (shared across tabs, capped
   // at NEW_PER_DAY) and which of those/reviews were already done in EACH tab today
   // (so switching tabs doesn't just re-show or hide the same words).
-  function freshToday(){
-    return { date: todayStr(), introduced: [], doneByMode: {flash:[], quiz:[], type:[]} };
+  // "dueAtStart" is the review list for the day: every word whose repetition was due
+  // when the day began. Each exercise tab can work through it once, even after another
+  // tab has already moved those words forward in the schedule.
+  function freshToday(cards){
+    var due = [];
+    if (cards){
+      var now = Date.now();
+      Object.keys(cards).forEach(function(id){
+        var s = cards[id];
+        if (s && s.seen > 0 && s.next <= now) due.push(id);
+      });
+    }
+    return { date: todayStr(), introduced: [], dueAtStart: due,
+             doneByMode: {flash:[], quiz:[], type:[], build:[], listen:[]} };
   }
   function resetTodayIfNeeded(){
     if (!PROGRESS.today || PROGRESS.today.date !== todayStr()){
-      PROGRESS.today = freshToday();
+      PROGRESS.today = freshToday(PROGRESS.cards);
     }
   }
 
@@ -661,8 +917,13 @@
       }
       s.lastBoxDate = todayStr();
     }
+    if (!PROGRESS.today.doneByMode[mode]) PROGRESS.today.doneByMode[mode] = [];
     var doneList = PROGRESS.today.doneByMode[mode];
-    if (doneList && doneList.indexOf(id) === -1) doneList.push(id);
+    if (doneList.indexOf(id) === -1) doneList.push(id);
+    var h = historyFor(todayStr());
+    h.reps += 1;
+    if (correct) h.correct += 1;
+    if (wasNew) h.newWords += 1;
     bumpStreakOnActivity();
     saveProgress(PROGRESS);
   }
@@ -670,7 +931,7 @@
   /* ---------------- STATE ---------------- */
   var state = {
     mode:'flash',
-    activeCats:['business','everyday','tech','women'],
+    activeCats:['everyday','tech','phrases','business','women'],
     queue:[],
     idx:0,
     flipped:false,
@@ -692,9 +953,14 @@
     var doneInMode = PROGRESS.today.doneByMode[mode] || [];
     var introducedToday = PROGRESS.today.introduced;
 
+    // Words introduced today live in the "today's batch" list below, so they must
+    // not also be counted as due reviews (that double-counted them 10 minutes later).
+    var dueAtStart = PROGRESS.today.dueAtStart || [];
     var reviewDue = pool.filter(function(d){
       var s = ensureCardState(d.id);
-      return s.seen > 0 && s.next <= now && doneInMode.indexOf(d.id) === -1;
+      return s.seen > 0 && doneInMode.indexOf(d.id) === -1 &&
+             introducedToday.indexOf(d.id) === -1 &&
+             (s.next <= now || dueAtStart.indexOf(d.id) > -1);
     });
     var todaysBatchPending = pool.filter(function(d){
       return introducedToday.indexOf(d.id) > -1 && doneInMode.indexOf(d.id) === -1;
@@ -707,8 +973,11 @@
     return {reviewDue:reviewDue, newDue:todaysBatchPending.concat(freshNew)};
   }
 
+  // Exercise tabs each have their own daily set; "days" and "browse" are just views.
+  var EXERCISES = ['flash','quiz','type','build','listen'];
+
   function buildQueue(){
-    if (state.mode === 'browse'){ state.queue = []; state.idx = 0; return; }
+    if (EXERCISES.indexOf(state.mode) === -1){ state.queue = []; state.idx = 0; return; }
     var r = reachableFor(state.mode);
     var combined = r.reviewDue.concat(r.newDue);
     combined = shuffle(combined).slice(0, SESSION_SIZE);
@@ -738,13 +1007,13 @@
   }
 
   /* ---------------- SPEECH ---------------- */
-  function speak(text){
+  function speak(text, rate){
     if (!('speechSynthesis' in window)) return;
     try{
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
       u.lang = 'en-US';
-      u.rate = 0.92;
+      u.rate = rate || 0.92;
       window.speechSynthesis.speak(u);
     }catch(e){}
   }
@@ -752,7 +1021,7 @@
   /* ---------------- RENDER: TOP TALLIES ---------------- */
   function renderTallies(){
     var pool = filteredDeck();
-    var modeForCount = (state.mode === 'browse') ? 'flash' : state.mode;
+    var modeForCount = (EXERCISES.indexOf(state.mode) === -1) ? 'flash' : state.mode;
     var r = reachableFor(modeForCount);
     var dueCount = r.reviewDue.length + r.newDue.length;
     var masteredCount = pool.filter(function(d){ return isMastered(d.id); }).length;
@@ -761,7 +1030,15 @@
     el.innerHTML =
       '<div class="tally"><b>'+dueCount+'</b><span>доступно сегодня</span></div>'+
       '<div class="tally"><b>'+masteredCount+'</b><span>усвоено из '+pool.length+'</span></div>'+
-      '<div class="tally"><b>'+streak+'</b><span>дней подряд</span></div>';
+      '<div class="tally"><b>'+streak+'</b><span>'+plural(streak, ['день подряд','дня подряд','дней подряд'])+'</span></div>';
+  }
+
+  // Russian plural: 1 день, 2-4 дня, 5+ дней (11-14 are always the "many" form).
+  function plural(n, forms){
+    var m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return forms[0];
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return forms[1];
+    return forms[2];
   }
 
   function isDateYesterday(dateStr){
@@ -794,13 +1071,32 @@
   }
 
   /* ---------------- RENDER: EMPTY STATE ---------------- */
-  var MODE_LABELS = {flash:'«Карточки»', quiz:'«Тест»', type:'«Ввод»'};
+  var MODE_LABELS = {flash:'«Карточки»', quiz:'«Тест»', type:'«Ввод»', build:'«Сборка»', listen:'«Слух»'};
   function emptyStateHtml(){
-    var others = ['flash','quiz','type'].filter(function(m){ return m !== state.mode; });
-    var hint = others.map(function(m){ return MODE_LABELS[m]; }).join(' или ');
+    var others = EXERCISES.filter(function(m){ return m !== state.mode; });
+    var hint = others.map(function(m){ return MODE_LABELS[m]; }).join(', ');
     return '<div class="empty-state"><div class="big">На сегодня в этой вкладке всё!</div>'+
-      'Эти же слова ещё можно пройти во вкладке '+hint+' — там свой отдельный лимит на сегодня. '+
-      'Новые слова для повторения появятся, когда подойдёт их срок.</div>';
+      'Эти же слова можно ещё потренировать в других упражнениях: '+hint+'. У каждого свой набор на сегодня. '+
+      'Слова на повторение появятся, когда подойдёт их срок.</div>';
+  }
+
+  // Shown when the current session queue is finished. If more words are still
+  // available today (the session holds at most SESSION_SIZE), offer to continue
+  // instead of claiming everything is done.
+  function showEmpty(panel){
+    var r = reachableFor(state.mode);
+    var avail = r.reviewDue.length + r.newDue.length;
+    if (avail > 0){
+      panel.innerHTML += '<div class="empty-state"><div class="big">Сессия пройдена</div>'+
+        'В этой вкладке на сегодня есть ещё слова: '+avail+'.</div>'+
+        '<button class="btn-solid" id="moreBtn" style="width:100%">Продолжить</button>';
+      document.getElementById('moreBtn').addEventListener('click', function(){
+        buildQueue();
+        render();
+      });
+      return;
+    }
+    panel.innerHTML += emptyStateHtml();
   }
 
   /* ---------------- RENDER: FLASHCARDS ---------------- */
@@ -809,7 +1105,7 @@
     renderSessionTally(panel);
     var card = currentCard();
     if (!card){
-      panel.innerHTML += emptyStateHtml();
+      showEmpty(panel);
       return;
     }
     var cat = CATS[card.cat];
@@ -862,7 +1158,7 @@
     renderSessionTally(panel);
     var card = currentCard();
     if (!card){
-      panel.innerHTML += emptyStateHtml();
+      showEmpty(panel);
       return;
     }
     if (!quizCache[card.id] || quizCache.forId !== card.id){
@@ -911,8 +1207,15 @@
   }
 
   /* ---------------- RENDER: TYPE ---------------- */
+  // Lenient comparison: ignores case, apostrophes, hyphens, punctuation and a leading "to".
   function normalizeAnswer(s){
-    return s.toLowerCase().trim().replace(/^to\s+/,'').replace(/[.,!?]+$/,'').replace(/['’]/g,'').replace(/\s+/g,' ');
+    return s.toLowerCase().trim()
+      .replace(/^to\s+/,'')
+      .replace(/['’]/g,'')
+      .replace(/[-–—]/g,' ')
+      .replace(/[^a-z0-9\s]/g,'')
+      .replace(/\s+/g,' ')
+      .trim();
   }
 
   function renderType(panel){
@@ -920,7 +1223,7 @@
     renderSessionTally(panel);
     var card = currentCard();
     if (!card){
-      panel.innerHTML += emptyStateHtml();
+      showEmpty(panel);
       return;
     }
     var html = '<div class="q-prompt"><div class="lbl">Напишите фразу по-английски</div>';
@@ -956,10 +1259,232 @@
     });
   }
 
+  /* ---------------- RENDER: BUILD A SENTENCE ---------------- */
+  var buildState = {forId:null, tokens:[], order:[], placed:[], checked:false, correct:false};
+
+  function startBuild(card){
+    var toks = card.ex.split(/\s+/).filter(Boolean);
+    var idxs = toks.map(function(_, i){ return i; });
+    var order = shuffle(idxs), tries = 0;
+    // don't hand over the sentence already in the right order
+    while (toks.length > 2 && order.join() === idxs.join() && tries < 10){ order = shuffle(idxs); tries++; }
+    buildState = {forId:card.id, tokens:toks, order:order, placed:[], checked:false, correct:false};
+  }
+
+  function renderBuild(panel){
+    renderCatPicker(panel);
+    renderSessionTally(panel);
+    var card = currentCard();
+    if (!card){
+      showEmpty(panel);
+      return;
+    }
+    if (buildState.forId !== card.id) startBuild(card);
+    var b = buildState;
+    var html = '<div class="q-prompt"><div class="lbl">Соберите предложение по-английски</div>'+
+      '<div class="word" style="font-size:1.15rem;line-height:1.35">'+card.exRu+'</div>'+
+      '<div class="note">Во фразе: <b>'+card.en+'</b> — '+card.ru+'</div></div>';
+    html += '<div class="answer-zone" id="answerZone">';
+    b.placed.forEach(function(ti, pos){
+      html += '<button class="chip placed" data-pos="'+pos+'">'+b.tokens[ti]+'</button>';
+    });
+    html += '</div>';
+    html += '<div class="token-pool">';
+    b.order.forEach(function(ti){
+      var used = b.placed.indexOf(ti) > -1;
+      html += '<button class="chip'+(used?' used':'')+'" data-tok="'+ti+'">'+b.tokens[ti]+'</button>';
+    });
+    html += '</div>';
+    if (!b.checked){
+      html += '<div class="btn-row"><button class="btn-ghost" id="buildReset">Сначала</button>'+
+        '<button class="btn-solid" id="buildCheck" '+(b.placed.length === b.tokens.length ? '' : 'disabled')+'>Проверить</button></div>';
+    } else {
+      html += '<div class="feedback '+(b.correct?'ok':'bad')+'">'+
+        (b.correct ? 'Верно!' : 'Правильный порядок:')+
+        '<span class="ex" style="font-style:normal;color:inherit;font-weight:600">'+card.ex+'</span></div>'+
+        '<div class="btn-row" style="margin-top:12px"><button class="btn-ghost" id="buildSpeak">🔊 Послушать</button>'+
+        '<button class="btn-solid" id="nextBtn">Дальше</button></div>';
+    }
+    panel.innerHTML += html;
+
+    panel.querySelectorAll('.chip[data-tok]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (b.checked) return;
+        var ti = parseInt(btn.getAttribute('data-tok'), 10);
+        if (b.placed.indexOf(ti) === -1){ b.placed.push(ti); render(); }
+      });
+    });
+    panel.querySelectorAll('.chip[data-pos]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if (b.checked) return;
+        b.placed.splice(parseInt(btn.getAttribute('data-pos'), 10), 1);
+        render();
+      });
+    });
+    var rs = document.getElementById('buildReset');
+    if (rs) rs.addEventListener('click', function(){ b.placed = []; render(); });
+    var ck = document.getElementById('buildCheck');
+    if (ck) ck.addEventListener('click', function(){
+      if (b.placed.length !== b.tokens.length) return;
+      b.correct = b.placed.map(function(ti){ return b.tokens[ti]; }).join(' ') === b.tokens.join(' ');
+      b.checked = true;
+      grade(card.id, b.correct, 'build');
+      render();
+    });
+    var sp = document.getElementById('buildSpeak');
+    if (sp) sp.addEventListener('click', function(){ speak(card.ex); });
+    var nx = document.getElementById('nextBtn');
+    if (nx) nx.addEventListener('click', advance);
+  }
+
+  /* ---------------- RENDER: LISTEN ---------------- */
+  var lastSpokenId = null;
+
+  function renderListen(panel){
+    renderCatPicker(panel);
+    renderSessionTally(panel);
+    var card = currentCard();
+    if (!card){
+      showEmpty(panel);
+      return;
+    }
+    var canSpeak = ('speechSynthesis' in window);
+    var html = '<div class="q-prompt"><div class="lbl">'+
+      (canSpeak ? 'Послушайте и напишите по-английски то, что услышали' : 'Напишите по-английски (озвучки на этом устройстве нет)')+'</div>';
+    if (canSpeak){
+      html += '<button class="listen-btn" id="playBtn" title="Прослушать">🔊</button>'+
+              '<button class="listen-slow" id="slowBtn">медленнее</button>';
+    } else {
+      html += '<div class="word">'+card.ru+'</div>';
+    }
+    html += '</div>';
+    html += '<div class="type-row"><input type="text" id="listenInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type what you hear..." '+(state.typeChecked?'disabled':'')+'>';
+    html += '<button id="listenCheck">'+(state.typeChecked?'Ок':'Проверить')+'</button></div>';
+    html += '<div id="listenFeedback"></div>';
+    panel.innerHTML += html;
+
+    var play = document.getElementById('playBtn');
+    if (play) play.addEventListener('click', function(){ speak(card.en); });
+    var slow = document.getElementById('slowBtn');
+    if (slow) slow.addEventListener('click', function(){ speak(card.en, 0.6); });
+    if (canSpeak && lastSpokenId !== card.id){
+      lastSpokenId = card.id;
+      setTimeout(function(){ speak(card.en); }, 250);
+    }
+
+    var input = document.getElementById('listenInput');
+    input.focus();
+    function doCheck(){
+      if (state.typeChecked){ advance(); return; }
+      state.typeChecked = true;
+      var correct = normalizeAnswer(input.value || '').length > 0 &&
+                    normalizeAnswer(input.value || '') === normalizeAnswer(card.en);
+      grade(card.id, correct, 'listen');
+      renderTallies();
+      document.getElementById('listenFeedback').innerHTML =
+        '<div class="feedback '+(correct?'ok':'bad')+'">'+
+        (correct ? 'Верно: ' : 'Правильно так: ')+card.en+' — '+card.ru+
+        '<span class="ex">'+card.ex+' — '+card.exRu+'</span></div>'+
+        '<button class="next-btn" id="nextBtn">Дальше</button>';
+      document.getElementById('listenCheck').style.display = 'none';
+      document.getElementById('nextBtn').addEventListener('click', advance);
+      input.disabled = true;
+    }
+    document.getElementById('listenCheck').addEventListener('click', doCheck);
+    input.addEventListener('keydown', function(e){ if (e.key === 'Enter') doCheck(); });
+  }
+
+  /* ---------------- RENDER: DAYS (history + backup) ---------------- */
+  var WEEKDAYS = ['вс','пн','вт','ср','чт','пт','сб'];
+
+  function lastDays(n){
+    var out = [];
+    for (var i = 0; i < n; i++){
+      var d = new Date();
+      d.setDate(d.getDate() - i);
+      var key = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+      var dd = ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2);
+      out.push({key:key, label:WEEKDAYS[d.getDay()]+' '+dd});
+    }
+    return out;
+  }
+
+  function exportCode(){
+    return btoa(unescape(encodeURIComponent(JSON.stringify(PROGRESS))));
+  }
+  function importCode(str){
+    var obj = JSON.parse(decodeURIComponent(escape(atob(String(str).replace(/\s+/g,'')))));
+    if (!obj || typeof obj.cards !== 'object') throw new Error('bad');
+    if (!obj.streak) obj.streak = {count:0, lastDate:null};
+    if (!obj.history) obj.history = {};
+    if (!obj.today) obj.today = freshToday(obj.cards);
+    return obj;
+  }
+
+  function renderDays(panel){
+    var days = lastDays(14);
+    var hist = PROGRESS.history || {};
+    var maxReps = 1;
+    days.forEach(function(d){ var h = hist[d.key]; if (h && h.reps > maxReps) maxReps = h.reps; });
+
+    var started = DECK.filter(function(d){ return ensureCardState(d.id).seen > 0; }).length;
+    var mastered = DECK.filter(function(d){ return isMastered(d.id); }).length;
+    var html = '<div class="sec-title">Последние 14 дней</div>';
+    days.forEach(function(d){
+      var h = hist[d.key];
+      var reps = h ? h.reps : 0;
+      var pct = h && h.reps ? Math.round(100 * h.correct / h.reps) : 0;
+      html += '<div class="day-row"><span>'+d.label+'</span>'+
+        '<div class="bar-wrap">'+(reps ? '<div class="bar" style="width:'+Math.round(100 * reps / maxReps)+'%"></div>' : '')+'</div>'+
+        (reps ? '<div class="meta">'+reps+' '+plural(reps, ['повторение','повторения','повторений'])+
+                ' · новых слов: '+h.newWords+' · верно '+pct+'%</div>' : '')+'</div>';
+    });
+
+    html += '<div class="sec-title" style="margin-top:18px">По темам</div>';
+    html += '<div class="note" style="margin-top:-4px">Серая полоса — слова, с которыми уже начали, зелёная — усвоенные.</div>';
+    Object.keys(CATS).forEach(function(key){
+      var all = DECK.filter(function(d){ return d.cat === key; });
+      var s = all.filter(function(d){ return ensureCardState(d.id).seen > 0; }).length;
+      var m = all.filter(function(d){ return isMastered(d.id); }).length;
+      html += '<div class="cat-prog"><div class="line"><span>'+CATS[key].label+'</span><span>начато '+s+' · усвоено '+m+' из '+all.length+'</span></div>'+
+        '<div class="track"><div class="seen" style="width:'+Math.round(100 * s / all.length)+'%"></div>'+
+        '<div class="mast" style="width:'+Math.round(100 * m / all.length)+'%"></div></div></div>';
+    });
+    html += '<div class="note"><b>Всего:</b> начато '+started+' из '+DECK.length+', усвоено '+mastered+'.</div>';
+
+    html += '<div class="sec-title" style="margin-top:18px">Перенос прогресса</div>'+
+      '<div class="note">Чтобы продолжить на другом устройстве, скопируйте код ниже, откройте тренажёр там, вставьте код в это поле и нажмите «Загрузить».</div>'+
+      '<textarea class="code" id="codeBox" spellcheck="false"></textarea>'+
+      '<div class="btn-row" style="margin-top:8px"><button class="btn-ghost" id="copyCode">Скопировать код</button>'+
+      '<button class="btn-solid" id="loadCode">Загрузить код</button></div>'+
+      '<div class="note" id="codeMsg"></div>';
+    panel.innerHTML += html;
+
+    var box = document.getElementById('codeBox');
+    box.value = exportCode();
+    var msg = document.getElementById('codeMsg');
+    document.getElementById('copyCode').addEventListener('click', function(){
+      box.value = exportCode();
+      function fallback(){ box.select(); try{ document.execCommand('copy'); msg.textContent = 'Код скопирован.'; }catch(e){ msg.textContent = 'Выделите код в поле и скопируйте вручную.'; } }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(box.value).then(function(){ msg.textContent = 'Код скопирован.'; }, fallback);
+      } else { fallback(); }
+    });
+    document.getElementById('loadCode').addEventListener('click', function(){
+      var obj;
+      try{ obj = importCode(box.value); }catch(e){ msg.textContent = 'Не удалось прочитать код. Проверьте, что он вставлен целиком.'; return; }
+      if (!confirm('Заменить текущий прогресс на загруженный?')) return;
+      PROGRESS = obj;
+      saveProgress(PROGRESS);
+      buildQueue();
+      render();
+    });
+  }
+
   /* ---------------- RENDER: BROWSE ---------------- */
   function renderBrowse(panel){
     renderCatPicker(panel);
-    var pool = filteredDeck();
+    var pool = DECK_RAW.filter(function(d){ return state.activeCats.indexOf(d.cat) > -1; });
     var html = '<div class="browse-list">';
     pool.forEach(function(d){
       html += '<div class="browse-item"><div><span class="en">'+d.en+'</span><br><span style="font-size:0.78rem;color:var(--ink-soft)">'+d.ex+'</span></div>'+
@@ -977,6 +1502,9 @@
     if (state.mode === 'flash') renderFlash(panel);
     else if (state.mode === 'quiz') renderQuiz(panel);
     else if (state.mode === 'type') renderType(panel);
+    else if (state.mode === 'build') renderBuild(panel);
+    else if (state.mode === 'listen') renderListen(panel);
+    else if (state.mode === 'days') renderDays(panel);
     else if (state.mode === 'browse') renderBrowse(panel);
 
     panel.querySelectorAll('[data-cat]').forEach(function(btn){
@@ -1004,10 +1532,8 @@
     state.flipped = false;
     state.quizAnswered = false;
     state.typeChecked = false;
-    if (state.mode !== 'browse'){
-      state.idx = 0;
-      buildQueue();
-    }
+    state.idx = 0;
+    buildQueue();
     render();
   });
 
@@ -1023,6 +1549,9 @@
   loadProgress().then(function(p){
     PROGRESS = p;
     if (!PROGRESS.cards) PROGRESS = defaultProgress();
+    if (!PROGRESS.streak) PROGRESS.streak = {count:0, lastDate:null};
+    if (!PROGRESS.history) PROGRESS.history = {};
+    renderBanner();
     buildQueue();
     render();
   });
